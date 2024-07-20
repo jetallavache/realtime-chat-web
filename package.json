@@ -1,0 +1,13 @@
+{
+  "name": "realtime-chat",
+  "version": "1.0.0",
+  "repository": "git@github.com:jetallavache/real-time-chat.git",
+  "scripts": {
+    "dev:compose:up": "docker compose -f docker-compose.dev.yml up",
+    "dev:compose:rebuild": "docker compose -f docker-compose.dev.yml up --build",
+    "dev:compose:stop": "docker compose -f docker-compose.dev.yml stop",
+    "dev:compose:rm": "docker compose -f docker-compose.dev.yml rm",
+    "dev:compose:rmi": "docker compose -f docker-compose.dev.yml down --rmi all",
+    "dev:compose:ps": "docker compose -f docker-compose.dev.yml ps"
+  }
+}

@@ -1,0 +1,57 @@
+version: '3.3'
+
+services:
+  # crm-dev:
+  #   env_file: .env.dev
+  #   container_name: crm-blglib-dev
+  #   build:
+  #     context: ./crm
+  #     dockerfile: Dockerfile.crm.dev
+  #   image: crm-img-dev
+  #   volumes:
+  #     - ./crm/src:/app-crm/src
+  #     - ./crm/public:/app-crm/public
+  #     - ./crm/pages:/app-crm/pages
+  #     - ./crm/assets:/app-crm/assets
+  #     - ./crm/package.json:/app-crm/package.json:rw
+  #     - ./crm/package-lock.json:/app-crm/package-lock.json:rw
+  #     - ./crm/vite.config.ts:/app-crm/vite.config.ts:rw
+  #     - ./crm/index.html:/app-crm/index.html:rw
+  #   command: npm run dev
+  #   ports:
+  #     - 5000:5000
+  #   depends_on:
+  #     - api-dev
+  #   restart: "no"
+
+  # api-dev:
+  #   env_file: .env.dev
+  #   container_name: api-blglib-dev
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile.api.dev
+  #   image: api-img-dev
+  #   volumes:
+  #     - ./api/src:/app-api/src
+  #     - ./api/package.json:/app-api/package.json:rw
+  #     - ./api/package-lock.json:/app-api/package-lock.json:rw
+  #   command: npm run dev
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - mongodb-dev
+  #   restart: on-failure
+  
+  mongodb-dev:
+    env_file: .env.dev.example
+    container_name: mongodb-dev
+    image: mongo:latest
+    volumes:
+      - mongodb-data-v2:/data/db
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro  # create user <--
+    ports:
+      - 27017:27017
+    restart: on-failure
+
+volumes:
+    mongodb-data-v2:
