@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import authProvider from "@/config/authProvider";
+import config from "./config/constants";
+import { useMessengerContext } from "./contexts/Messenger/Context";
+import { createRoutesFrom } from "./router";
+import Layout from "./layout/Layout";
+
+const Routes = createRoutesFrom(
+  import.meta.glob("./pages/**/*", { eager: true }),
+);
+
+export interface IAppProps {}
+
+const App: React.FunctionComponent<IAppProps> = (_props) => {
+  const { MessengerDispatch } = useMessengerContext();
+  const { checkUser } = authProvider(config.apiUrl);
+  const currentPath = window.location.pathname;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = checkUser();
+
+    if (user) {
+      MessengerDispatch({ type: "update_user", payload: user.data });
+      navigate("/chat");
+    } else {
+      MessengerDispatch({ type: "update_user", payload: null });
+      if (currentPath !== "/signup") {
+        navigate("/login");
+      }
+    }
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Layout>
+        <Routes />
+      </Layout>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

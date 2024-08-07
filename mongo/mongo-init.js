@@ -1,8 +1,6 @@
-
-
 db.getSiblingDB("admin").auth(
   process.env["MONGO_INITDB_ROOT_USERNAME"],
-  process.env["MONGO_INITDB_ROOT_PASSWORD"]
+  process.env["MONGO_INITDB_ROOT_PASSWORD"],
 );
 
 db.createUser({
@@ -10,7 +8,7 @@ db.createUser({
   pwd: process.env["M_PASSWORD"],
   roles: [
     {
-      role: 'readWrite',
+      role: "readWrite",
       db: process.env["M_DATABASE"],
     },
   ],

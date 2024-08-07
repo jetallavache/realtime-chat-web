@@ -1,42 +1,50 @@
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose';
 
-const { Schema, model } = mongoose
+const { Schema, model } = mongoose;
+
+interface MongooseTypes {
+    type: Types.ObjectId;
+    required?: boolean;
+    ref: string;
+}
 
 interface IMessage {
-    messageId: string,
-    text: string,
-    channelId: string,
-    userId: string,
-    userName: string,
-  }
+    id: string;
+    from: MongooseTypes;
+    to: MongooseTypes;
+    content: string;
+    timestamp: string;
+}
 
 const messageSchema = new Schema<IMessage>(
-  {
-    messageId: {
-      type: String,
-      required: true,
-      unique: true
+    {
+        id: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        from: {
+            type: mongoose.Types.ObjectId,
+            required: true,
+            ref: 'User',
+        },
+        to: {
+            type: mongoose.Types.ObjectId,
+            required: true,
+            ref: 'Channel',
+        },
+        content: {
+            type: String,
+            required: true,
+        },
+        timestamp: {
+            type: String,
+            default: "",
+        },
     },
-    text: {
-      type: String,
-      required: true
+    {
+        timestamps: true,
     },
-    channelId: {
-      type: String,
-      required: true
-    },
-    userId: {
-      type: String,
-      required: true
-    },
-    userName: {
-      type: String,
-      required: true
-    }
-  },
-  {
-    timestamps: true
-  }
-)
+);
 
-export default model<IMessage>('Message', messageSchema)
+export default model<IMessage>('Message', messageSchema);

@@ -1,0 +1,50 @@
+import React, { useEffect, useReducer } from "react";
+
+import { IChannelContextComponentProps } from "./interfaces";
+import {
+  ChannelContextProvider,
+  ChannelReducer,
+  defaultChannelContextState,
+  useChannelContext,
+} from "./Context";
+import { useSocketContext } from "../Socket/Context";
+import { TMessageObject, TUserObject } from "@/config/interfaces";
+
+const ChannelContextComponent: React.FunctionComponent<
+  IChannelContextComponentProps
+> = (props) => {
+  const { children } = props;
+
+  const [ChannelState, ChannelDispatch] = useReducer(ChannelReducer, defaultChannelContextState,);
+
+  const { socket } = useSocketContext().SocketState;
+
+  useEffect(() => {
+    
+    /** Start the event listeners */
+    startListeners()
+
+  }, [])
+
+  const startListeners = () => {
+    /** Get a list of members */
+    socket?.on("receive_members", (members: TUserObject[]) => {
+      console.info("List of channel members has been received.");
+      ChannelDispatch({ type: "update_members", payload: members });
+    });
+
+    /** Get a list of messages */
+    socket?.on("receive_messages", (messages: TMessageObject[]) => {
+      console.info("List of channel messages has been received.");
+      ChannelDispatch({ type: "update_messages", payload: messages });
+    });
+  }
+
+  return (
+    <ChannelContextProvider value={{ ChannelState, ChannelDispatch }}>
+      {children}
+    </ChannelContextProvider>
+  );
+};
+
+export default ChannelContextComponent;

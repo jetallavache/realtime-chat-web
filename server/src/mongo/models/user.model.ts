@@ -1,27 +1,33 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import { boolean } from 'zod';
 
-const { Schema, model } = mongoose
+const { Schema, model } = mongoose;
 
 interface IUser {
-  userId: string,
-  name: string;
+    uid: string;
+    username: string;
+    online: boolean;
 }
 
 const userSchema = new Schema<IUser>(
-  {
-    userId: {
-      type: String,
-      required: true,
-      unique: true,
+    {
+        uid: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        username: {
+            type: String,
+            required: true,
+        },
+        online: {
+            type: Boolean,
+            default: true,
+        },
     },
-    name: {
-      type: String,
-      required: true,
+    {
+        timestamps: true,
     },
-  },
-  {
-    timestamps: true,
-  },
 );
 
-export default model<IUser>("User", userSchema);
+export default model<IUser>('User', userSchema);

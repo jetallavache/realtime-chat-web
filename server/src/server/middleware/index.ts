@@ -3,21 +3,28 @@ import cors from 'cors';
 import helmet from 'helmet';
 import errorMiddleware from './error.middleware';
 import config from '../../config';
-// import routes from '../../chat';
+import routes from '../../http';
+import { corsOptions } from '../utils/cors.options';
+import { printLogs } from '../utils/logs';
 
-export default ({ app }: { app: Application }): void => {
-    app.use(cors({
-        origin: config.allowedOrigin
-      }));
+export default (app: Application): void => {
+    /** Restrict access to all but the specified clients */
+    app.use(cors(corsOptions));
 
+    /** Log the request */
+    app.use(printLogs);
+
+    /** Parse the body of the request  */
     app.use(express.json());
 
     app.use(express.urlencoded({ extended: true }));
 
-    // app.use(config.chat.url, routes());
+    /** Defining routes for sending requests */
+    app.use(config.chat.url, routes());
 
+    /** Setting HTTP headers related to security */
     app.use(helmet());
 
+    /** Handling all incoming errors */
     app.use(errorMiddleware);
-}
-
+};

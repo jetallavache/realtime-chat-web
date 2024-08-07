@@ -1,19 +1,19 @@
 import config from '../../config';
 
 const {
-    server: { port, host },
+    server: { protocol, port, host },
 } = config;
 
 type BaseUriParts = {
+    protocol: string;
     host: string;
     port: number;
 };
 
-export const buildHttpUri = ({ host, port }: BaseUriParts): string => {
-    const protocol = 'http';
+export const buildHttpUri = ({ protocol, host, port }: BaseUriParts): string => {
     return `${protocol}://${host}:${port}`;
 };
 
-export const setupServer = (): void => {
-    console.log(`🔥Server is started: ${buildHttpUri({ port, host })}.`);
+export default (): void => {
+    console.log(`🔥 Server started: ${buildHttpUri({ protocol, port, host })}.`);
 };
