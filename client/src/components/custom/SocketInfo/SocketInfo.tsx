@@ -6,14 +6,15 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 
 import SocketContext from "@/contexts/Socket/Context";
-import { ISocketInfoProps } from "./interfaces";
+
+export interface ISocketInfoProps {}
 
 const SocketInfo: React.FunctionComponent<ISocketInfoProps> = (_props) => {
-  const { socket, clientId, clients, status } = useContext(SocketContext).SocketState;
+  const { socket, clientId, clients } =
+    useContext(SocketContext).SocketState;
 
   return (
     <Card className="">
@@ -21,9 +22,9 @@ const SocketInfo: React.FunctionComponent<ISocketInfoProps> = (_props) => {
         <div className="space-y-1">
           {/* <CardTitle>Information</CardTitle> */}
           <CardDescription>
-            Connection status: <strong>{status}</strong>
+            Connection status: <strong>{socket?.id ? <span className="text-green-500">connected</span> : <span className="text-red-600">disconnected</span>}</strong>
           </CardDescription>
-          {status === "connected" && (
+          {socket?.id && (
             <CardDescription>
               There are currently <strong>{clients.length} active users</strong>{" "}
               on the site.
@@ -41,7 +42,9 @@ const SocketInfo: React.FunctionComponent<ISocketInfoProps> = (_props) => {
             <CaretRightIcon className="mr-1 h-3 w-3" />
             id:
           </div>
-          <div className="col-span-4">{clientId.length === 0 ? "—" : clientId}</div>
+          <div className="col-span-4">
+            {clientId.length === 0 ? "—" : clientId}
+          </div>
 
           <div className="flex items-center">
             <RocketIcon className="mr-1 h-3 w-3 fill-sky-400 text-sky-400" />
@@ -53,18 +56,6 @@ const SocketInfo: React.FunctionComponent<ISocketInfoProps> = (_props) => {
           </div>
           <div className="col-span-4">{socket?.id ? socket.id : "—"}</div>
         </div>
-
-        {/* <div className="flex space-x-4 text-sm text-muted-foreground">
-          <div className="flex items-center">
-            <ArrowTopRightIcon className="mr-1 h-3 w-3 fill-sky-400 text-sky-400" />
-            Socket
-          </div>
-          <div className="flex items-center">
-            <CaretRightIcon className="mr-1 h-3 w-3" />
-            id:
-          </div>
-          <div>{socket?.id ? socket.id : '—'}</div>
-        </div> */}
       </CardContent>
     </Card>
   );
@@ -72,13 +63,3 @@ const SocketInfo: React.FunctionComponent<ISocketInfoProps> = (_props) => {
 
 export default SocketInfo;
 
-{
-  /* <p>
-        Your user ID: <strong>{uid}</strong>
-        <br />
-        Users online: <strong>{users.length}</strong>
-        <br />
-        Socket ID: <strong>{socket?.id}</strong>
-        <br />
-      </p> */
-}

@@ -34,9 +34,11 @@ const authProvider = (apiUrl: string): AuthProvider => ({
   logout: async () => {
     const user = storage.get<TUserObject>(userStorageKey);
     const url = `${apiUrl}/users/${user?.uid}/update`;
-    await _.patch(url)({ data: {
-      online: false,
-    } });
+    await _.patch(url)({
+      data: {
+        online: false,
+      },
+    });
     storage.remove(userStorageKey);
   },
 });

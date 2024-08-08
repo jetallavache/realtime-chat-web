@@ -1,27 +1,12 @@
 import * as React from "react";
-import {
-  AlertCircle,
-  Archive,
-  ArchiveX,
-  File,
-  Inbox,
-  MessagesSquare,
-  Search,
-  Send,
-  ShoppingCart,
-  Trash2,
-  Users2,
-} from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 
@@ -29,27 +14,31 @@ import MessageList from "./MessageList";
 import { Nav } from "./Nav";
 
 import MessageInputArea from "./MessageInputArea";
-import { TMessageObject } from "@/config/interfaces";
-import { TUser } from "../MessengerScreen/interfaces";
+import { TMessageObject, TUserObject } from "@/config/interfaces";
+import { MemberList } from './MemberList'
 
 interface MailProps {
   channelId: string;
-  userUid: string;
+  userUid: string | undefined;
   messages: TMessageObject[];
-  users: TUser[] | undefined;
+  members: TUserObject[] | undefined;
   defaultLayout?: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
+  isOwner: boolean;
+  excludeMember: (member: TUserObject) => void;
 }
 
 export function Chat({
   channelId: channelId,
   userUid: userId,
   messages: messages,
-  users: users,
+  members: members,
   defaultLayout = [20, 50, 30],
   defaultCollapsed = false,
   navCollapsedSize,
+  isOwner,
+  excludeMember,
 }: MailProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
 
@@ -105,40 +94,7 @@ export function Chat({
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={defaultLayout[2]}>
-          <Tabs defaultValue="users">
-            <div className="flex items-center px-4 py-2">
-              <h1 className="text-xl font-bold">List</h1>
-              <TabsList className="ml-auto">
-                <TabsTrigger
-                  value="users"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Users
-                </TabsTrigger>
-                <TabsTrigger
-                  value="channels"
-                  className="text-zinc-600 dark:text-zinc-200"
-                >
-                  Channels
-                </TabsTrigger>
-              </TabsList>
-            </div>
-            <Separator />
-            <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-              <form>
-                <div className="relative">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search" className="pl-8" />
-                </div>
-              </form>
-            </div>
-            <TabsContent value="users" className="m-0">
-              {/* <UserList items={users} /> */}
-            </TabsContent>
-            <TabsContent value="channels" className="m-0">
-              {/* <ChannelList items={channels} /> */}
-            </TabsContent>
-          </Tabs>
+          <MemberList items={members} isOwner={isOwner} excludeMember={excludeMember} />
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>

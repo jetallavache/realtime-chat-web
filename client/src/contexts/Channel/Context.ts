@@ -4,7 +4,11 @@ import {
   IChannelContextProps,
   IChannelContextState,
 } from "./interfaces";
-import { TChannelObject, TMessageObject, TUserObject } from "@/config/interfaces";
+import {
+  TChannelObject,
+  TMessageObject,
+  TUserObject,
+} from "@/config/interfaces";
 
 export const defaultChannelContextState: IChannelContextState = {
   channel: {
@@ -44,7 +48,10 @@ export const ChannelReducer = (
       return { ...state, members: action.payload as TUserObject[] };
 
     case "add_member":
-      return { ...state, members: state.members?.concat(action.payload as TUserObject) };
+      return {
+        ...state,
+        members: state.members?.concat(action.payload as TUserObject),
+      };
 
     /** by user uid */
     case "remove_member":

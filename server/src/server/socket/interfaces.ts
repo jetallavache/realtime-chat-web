@@ -41,8 +41,22 @@ export type MessageListType = {
     [index: string]: MessageType[];
 };
 
-export type TUser = { uid?: string, username?: string, online: boolean }
+export type TUser = { uid?: string; username?: string; online: boolean };
 
-export type TMessage = { id?: string, from?: TUser | string, to?: TChannel | string, content?: string, timestamp?: string | Date }
+export type TMessage = {
+    id?: string;
+    from?: TUser | string;
+    to?: TChannel | string;
+    content?: string;
+    timestamp?: string | Date;
+};
 
-export type TChannel = { id?: string, title?: string, description?: string, creator?: TUser | string, members?: TUser[], messages?: TMessage[], countMembers?: number }
+export type TChannel = {
+    id?: string;
+    title?: string;
+    description?: string;
+    creator?: TUser | string;
+    members?: TUser[];
+    messages?: TMessage[];
+    countMembers?: number;
+};

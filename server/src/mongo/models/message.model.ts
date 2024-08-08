@@ -25,21 +25,20 @@ const messageSchema = new Schema<IMessage>(
         },
         from: {
             type: mongoose.Types.ObjectId,
-            required: true,
             ref: 'User',
+            required: true,
         },
         to: {
             type: mongoose.Types.ObjectId,
-            required: true,
             ref: 'Channel',
         },
         content: {
             type: String,
-            required: true,
+            default: '',
         },
         timestamp: {
             type: String,
-            default: "",
+            default: '',
         },
     },
     {

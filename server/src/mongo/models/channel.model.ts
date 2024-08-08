@@ -3,8 +3,9 @@ import mongoose, { Types } from 'mongoose';
 const { Schema, model } = mongoose;
 
 interface MongooseTypes {
-    type: Types.ObjectId;
-    required?: boolean;
+    [x: string]: string;
+    // type: Types.ObjectId;
+    // required?: boolean;
     ref: string;
 }
 

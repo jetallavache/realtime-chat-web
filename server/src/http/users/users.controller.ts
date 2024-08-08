@@ -15,7 +15,7 @@ export default {
     },
 
     async create(req: Request, res: Response, next: NextFunction) {
-        try {            
+        try {
             const bodySchema = z.object({
                 uid: z.string().trim().uuid(),
                 username: z.string().min(2).max(50),
@@ -33,7 +33,7 @@ export default {
     },
 
     async login(req: Request, res: Response, next: NextFunction) {
-        try {            
+        try {
             const bodySchema = z.object({
                 uid: z.string().trim().uuid(),
             });
@@ -49,11 +49,11 @@ export default {
     },
 
     async update(req: Request, res: Response, next: NextFunction) {
-        try {            
+        try {
             const paramsSchema = z.object({
                 id: z.coerce.string(),
             });
-    
+
             const params = paramsSchema.parse(req.params);
 
             const bodySchema = z.object({
@@ -63,12 +63,11 @@ export default {
             });
 
             const data = bodySchema.parse(req.body);
-    
+
             const updated = await usersService.update(params, data);
-    
+
             res.json({ updated });
-        
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     },

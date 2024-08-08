@@ -16,7 +16,7 @@ export type TSocketContextAction =
   | "update_status"
   | "update_clientId"
   | "update_clients"
-  | "remove_client"
+  | "remove_client";
 
 export type TSocketContextPayload =
   | string

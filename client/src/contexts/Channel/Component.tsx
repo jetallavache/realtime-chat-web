@@ -15,16 +15,17 @@ const ChannelContextComponent: React.FunctionComponent<
 > = (props) => {
   const { children } = props;
 
-  const [ChannelState, ChannelDispatch] = useReducer(ChannelReducer, defaultChannelContextState,);
+  const [ChannelState, ChannelDispatch] = useReducer(
+    ChannelReducer,
+    defaultChannelContextState,
+  );
 
   const { socket } = useSocketContext().SocketState;
 
   useEffect(() => {
-    
     /** Start the event listeners */
-    startListeners()
-
-  }, [])
+    startListeners();
+  }, []);
 
   const startListeners = () => {
     /** Get a list of members */
@@ -38,7 +39,7 @@ const ChannelContextComponent: React.FunctionComponent<
       console.info("List of channel messages has been received.");
       ChannelDispatch({ type: "update_messages", payload: messages });
     });
-  }
+  };
 
   return (
     <ChannelContextProvider value={{ ChannelState, ChannelDispatch }}>

@@ -17,7 +17,7 @@ import { TUser } from "../MessengerScreen/interfaces";
 
 interface MessageListProps {
   items: TMessageObject[];
-  userUid: string;
+  userUid: string | undefined;
 }
 
 const MessageList = ({ items, userUid }: MessageListProps) => {
@@ -29,8 +29,9 @@ const MessageList = ({ items, userUid }: MessageListProps) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [items]);
 
+  }, [items]);
+  
   return (
     <>
       {items && (
@@ -57,9 +58,13 @@ const MessageList = ({ items, userUid }: MessageListProps) => {
                       )}
                     >
                       <CardDescription>
-                        {item.timestamp && format(parseISO(item.timestamp as string), "d LLL, HH:mm")}
+                        {item.timestamp &&
+                          format(
+                            parseISO(item.timestamp as string),
+                            "d LLL, HH:mm",
+                          )}
                       </CardDescription>
-                      {(item?.from as TUser).uid === userUid && (
+                      {(item?.from as TUser).uid !== userUid && (
                         <CardDescription className="flex flex-start space-x-1 items-center">
                           <CaretRightIcon />
                           {(item?.from as TUser).username}

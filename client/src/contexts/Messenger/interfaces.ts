@@ -3,6 +3,7 @@ import { TChannelObject, TUserObject } from "@/config/interfaces";
 
 export interface IMessengerContextState {
   user: TUserObject | null;
+  channel: TChannelObject | null;
   users: TUserObject[];
   channels: TChannelObject[];
 }
@@ -15,13 +16,13 @@ export type RecordType = {
 
 export type TMessengerContextAction =
   | "update_user"
+  | "update_channel"
   | "update_channels"
   | "add_channel"
   | "remove_channel"
   | "update_users"
   | "add_user"
   | "remove_user";
-
 
 export type TMessengerContextPayload =
   | string

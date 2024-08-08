@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useSocketContext } from "../contexts/Socket/Context";
-import { TChannelObject, TUserObject } from "@/config/interfaces"
+import { TChannelObject, TUserObject } from "@/config/interfaces";
 // import { useMessengerContext } from "@/contexts/Messenger/Context";
 
 export const useMessenger = () => {
@@ -9,9 +9,8 @@ export const useMessenger = () => {
   // const { MessengerDispatch, MessengerState } = useMessengerContext();
 
   useEffect(() => {
-
     /** ЗДЕСЬ МОЖЕМ ДОБАВИТЬ СЛУШАТЕЛЕЙ КОТОРЫЕ ИНИЦИАЛИЗИРУЮТСЯ ВО ВРЕМЯ ВЫЗОВА ХУКА  */
-   
+
     // socket?.on("receive_channels", (channels: TChannelObject[]) => {
     //   MessengerDispatch({ type: "update_channels", payload: channels })
     // });
@@ -22,11 +21,12 @@ export const useMessenger = () => {
     };
   }, []);
 
-  const getChannels = useCallback(async () => {
+  const updateChannelList = useCallback(async () => {
     socket?.emit("get_channels");
   }, []);
 
   const createChannel = useCallback(async (channel: TChannelObject) => {
+    console.log(channel)
     socket?.emit("create_channel", channel);
   }, []);
 
@@ -35,7 +35,6 @@ export const useMessenger = () => {
   }, []);
 
   const updateUserList = useCallback(async () => {
-    console.log("ГДЕ?")
     socket?.emit("get_users");
   }, []);
 
@@ -49,7 +48,7 @@ export const useMessenger = () => {
 
   const messengerActions = useMemo(
     () => ({
-      getChannels,
+      updateChannelList,
       createChannel,
       removeChannel,
       updateUserList,

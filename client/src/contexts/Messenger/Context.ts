@@ -7,10 +7,8 @@ import {
 import { TChannelObject, TUserObject } from "@/config/interfaces";
 
 export const defaultMessengerContextState: IMessengerContextState = {
-  user: {
-    uid: "",
-    username: ""
-  },
+  user: null,
+  channel: null,
   users: [],
   channels: [],
 };
@@ -28,17 +26,23 @@ export const MessengerReducer = (
     case "update_user":
       return { ...state, user: action.payload as TUserObject };
 
+      case "update_channel":
+        return { ...state, channel: action.payload as TChannelObject };
+
     case "update_channels":
       return { ...state, channels: action.payload as TChannelObject[] };
 
     case "add_channel":
-      return { ...state, channels: state.channels?.concat(action.payload as TChannelObject) };
+      return {
+        ...state,
+        channels: state.channels?.concat(action.payload as TChannelObject),
+      };
 
     /** by channel id */
     case "remove_channel":
       return {
         ...state,
-        users: state.channels?.filter(
+        channels: state.channels?.filter(
           (channel) => channel.id != (action.payload as string),
         ),
       };
@@ -47,9 +51,12 @@ export const MessengerReducer = (
       return { ...state, users: action.payload as TUserObject[] };
 
     case "add_user":
-      return { ...state, users: state.users?.concat(action.payload as TUserObject) };
+      return {
+        ...state,
+        users: state.users?.concat(action.payload as TUserObject),
+      };
 
-    /** by user uid */
+    // /** by user uid */
     case "remove_user":
       return {
         ...state,

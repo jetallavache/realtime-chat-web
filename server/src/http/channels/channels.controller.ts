@@ -16,7 +16,7 @@ export default {
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.body)
+            console.log(req.body);
 
             const bodySchema = z.object({
                 title: z.string().min(2).max(50),
@@ -37,8 +37,7 @@ export default {
     async createShow(req: Request, res: Response, next: NextFunction) {
         try {
             res.json({ data: {}, values: {} });
-        
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     },
@@ -46,16 +45,15 @@ export default {
     async updateShow(req: Request, res: Response, next: NextFunction) {
         try {
             const paramsSchema = z.object({
-                id: z.coerce.number(),
+                id: z.coerce.string(),
             });
-    
+
             const params = paramsSchema.parse(req.params);
-    
+
             const data = await channelsService.show(params);
-    
+
             res.json({ data: data, values: {} });
-        
-        } catch(error) {
+        } catch (error) {
             next(error);
         }
     },

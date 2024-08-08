@@ -13,26 +13,23 @@ export default {
                 path: 'messages',
                 select: '-_id id content createdAt',
                 // Get friends of friends - populate the 'friends' array for every friend
-                populate: { 
+                populate: {
                     path: 'user',
                     select: '-_id uid username',
-                }
-              });
+                },
+            });
 
         return channel?.messages ? channel.messages : [];
     },
     async getMembersFromChannel(channelId: string) {
-        const channel = await channelModel
-            .findOne({ id: channelId }, '-_id id')
-            .populate({
-                path: 'members',
-                select: '-_id uid username',
-              });
+        const channel = await channelModel.findOne({ id: channelId }, '-_id id').populate({
+            path: 'members',
+            select: '-_id uid username',
+        });
 
         return channel?.members ? channel.members : [];
     },
     async saveMessage(channelId: string, message: TMessage) {
-
         const user = await userModel.findOne({ uid: message.from }, '_id');
 
         const doc = new messageModel({
@@ -48,17 +45,15 @@ export default {
                 id: channelId,
             },
             {
-                $push:
-                {
-                    messages: doc, 
+                $push: {
+                    messages: doc,
                 },
-            }
+            },
         );
 
         return newMessage;
     },
     async addUserToChannel(room: string, uid: string) {
-
         const user = await userModel.findOne({ uid: uid }, '_id');
 
         await channelModel.updateOne(
@@ -66,15 +61,13 @@ export default {
                 id: room,
             },
             {
-                $push:
-                {
-                    members: user?._id, 
+                $push: {
+                    members: user?._id,
                 },
-            }
+            },
         );
     },
     async getUser(uid: string | undefined) {
-
         const user = await userModel.findOne({ uid: uid }, '_id uid name');
 
         return user;
@@ -85,32 +78,31 @@ export default {
             .populate({
                 path: 'creator',
                 select: '-_id uid name',
-              })
+            })
             .populate({
                 path: 'messages',
                 select: '-_id id content channel createdAt',
-                populate: { 
+                populate: {
                     path: 'user',
                     select: '-_id uid name',
-                }
-              })
+                },
+            })
             .populate({
                 path: 'members',
                 select: '-_id uid name',
-              });
+            });
 
         return channels;
     },
     async saveChannel(uid: string, channel: TChannel) {
+        console.log(channel.creator);
 
-        console.log(channel.creator)
-
-        let user = await userModel.findOne({ uid: uid })
+        let user = await userModel.findOne({ uid: uid });
 
         const doc = new channelModel({
             id: channel.id ? channel.id : v4(),
             title: channel.title,
-            description: channel?.description ? channel.description : "",
+            description: channel?.description ? channel.description : '',
             creator: user?._id,
             members: channel?.members,
             messages: channel?.messages,
@@ -122,4 +114,3 @@ export default {
         return newChannel;
     },
 };
-

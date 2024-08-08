@@ -23,8 +23,12 @@ const App: React.FunctionComponent<IAppProps> = (_props) => {
     const user = checkUser();
 
     if (user) {
+      console.log("hello?????")
       MessengerDispatch({ type: "update_user", payload: user.data });
-      navigate("/chat");
+      if (/^\/chat\/[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
+          currentPath,
+        )) return;
+      else navigate("/chat");
     } else {
       MessengerDispatch({ type: "update_user", payload: null });
       if (currentPath !== "/signup") {

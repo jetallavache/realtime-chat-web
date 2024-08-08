@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer } from "react";
 
-import { IMessengerContextComponentProps } from "./interfaces";
+import { IMessengerContextAction, IMessengerContextComponentProps, IMessengerContextProps, IMessengerContextState } from "./interfaces";
 import {
   defaultMessengerContextState,
   MessengerContextProvider,
-  MessengerReducer
+  MessengerReducer,
 } from "./Context";
 import { useSocketContext } from "../Socket/Context";
 import { TChannelObject, TUserObject } from "@/config/interfaces";
@@ -13,7 +13,10 @@ const MessengerContextComponent: React.FunctionComponent<
   IMessengerContextComponentProps
 > = (props) => {
   const { children } = props;
-  const [ MessengerState, MessengerDispatch ] = useReducer(MessengerReducer, defaultMessengerContextState,);
+  const [MessengerState, MessengerDispatch] = useReducer(
+    MessengerReducer,
+    defaultMessengerContextState,
+  );
   const { socket } = useSocketContext().SocketState;
 
   useEffect(() => {
@@ -33,7 +36,7 @@ const MessengerContextComponent: React.FunctionComponent<
       console.info("List of users has been received");
       MessengerDispatch({ type: "update_users", payload: users });
     });
-  }
+  };
 
   return (
     <MessengerContextProvider value={{ MessengerState, MessengerDispatch }}>

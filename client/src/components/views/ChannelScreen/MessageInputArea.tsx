@@ -7,7 +7,7 @@ import { useChannel } from "@/hooks/useChannel";
 import { TMessageObject } from "@/config/interfaces";
 
 interface MessagInputAreaProps {
-  userId: string;
+  userId: string | undefined;
   channelId: string;
 }
 
@@ -20,31 +20,39 @@ const MessageInputArea = ({ userId, channelId }: MessagInputAreaProps) => {
     setText(e.target.value);
   };
 
-  const sendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
+  const sendMessage = (e?: React.FormEvent) => {
+    e?.preventDefault();
 
     const trimmed = text.trim();
     if (!trimmed) return;
 
-    const message : TMessageObject = {
+    const message: TMessageObject = {
       from: userId,
       to: channelId,
       content: text,
-      timestamp: new Date().getTime().toString(),
+      timestamp: new Date().toISOString(),
     };
 
     channelActions.sendMessage(message);
 
     setText("");
   };
-  
+
+  const handleKeyDown = (e: { key: string; }) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  }
+
   return (
     <div className="flex space-x-2 m-2 ">
       <Textarea
         placeholder="No game, just chat..."
         value={text}
         onChange={changeText}
+        onKeyDown={handleKeyDown}
         className="h-20"
+        autoFocus
       />
       <Button variant="secondary" onClick={sendMessage} className="h-20">
         <span className="sr-only">Send</span>

@@ -19,12 +19,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-import SocketContext, { useSocketContext } from "@/contexts/Socket/Context";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSocket } from "@/hooks/useSocket";
 import { useMessenger } from "@/hooks/useMessenger";
 import { useMessengerContext } from "@/contexts/Messenger/Context";
+import authProvider from "@/config/authProvider";
+import config from '@/config/constants'
 
 export const resource = "channels";
 
@@ -49,10 +48,9 @@ const FormSchema = z.object({
 
 export function CreateChannel() {
   const navigate = useNavigate();
-
   const { createChannel } = useMessenger().messengerActions;
-
-  const { user } = useMessengerContext().MessengerState;
+  const { MessengerDispatch } = useMessengerContext();
+  const { checkUser } = authProvider(config.apiUrl);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -64,10 +62,12 @@ export function CreateChannel() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (user?.uid) {
+    const uid = checkUser()?.data.uid;
+    
+    if (uid) {
       const generatedIdChannel = v4();
-      data.creatorUid = user.uid;
-      
+      data.creatorUid = uid;
+
       await createChannel({
         id: generatedIdChannel,
         title: data.title,
@@ -82,11 +82,12 @@ export function CreateChannel() {
   }
 
   async function onSubmitAndFollow(data: z.infer<typeof FormSchema>) {
+    const uid = checkUser()?.data.uid;
     
-    if (user?.uid) {
+    if (uid) {
       const generatedIdChannel = v4();
-      data.creatorUid = user.uid;
-      
+      data.creatorUid = uid;
+
       await createChannel({
         id: generatedIdChannel,
         title: data.title,
@@ -99,7 +100,6 @@ export function CreateChannel() {
     } else {
       console.log("onSubmitAndFollow: user not found!");
     }
-    
   }
 
   function createChannelForm() {
@@ -151,9 +151,9 @@ export function CreateChannel() {
   }
 
   return (
-    <Card className="min-w-[290px]">
+    <Card className="min-w-[290px] h-full">
       <CardHeader>
-        <CardTitle>Create New</CardTitle>
+        <CardTitle className="text-xl font-bold">Create New</CardTitle>
       </CardHeader>
       <CardContent>{createChannelForm()}</CardContent>
     </Card>

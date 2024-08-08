@@ -1,23 +1,34 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useSocketContext } from "../contexts/Socket/Context";
-import { TMessageObject } from "@/config/interfaces"
+import { TMessageObject } from "@/config/interfaces";
+import { useNavigate } from "react-router-dom";
 
 export const useChannel = (channelId: string) => {
   const { socket } = useSocketContext().SocketState;
+  const navigate = useNavigate();
 
   useEffect(() => {
+    
+    socket?.on("called_exit", (memberId: string) => {
+      console.info("I was kicked out of the channel(.");
+      navigate("/chat");
+    });
 
     return () => {
-
+      socket?.off("called_exit");
     };
   }, []);
 
-  const joinRoom = useCallback(() => {
-    socket?.emit("join_room", channelId);
+  const joinRoom = useCallback((userId: string) => {
+    socket?.emit("join_room", channelId, userId);
   }, []);
 
-  const leaveRoom = useCallback(() => {
-    socket?.emit("leave_room", channelId);
+  const leaveRoom = useCallback((userId: string) => {
+    socket?.emit("leave_room", channelId, userId);
+  }, []);
+
+  const memberExclusion = useCallback((memberId: string) => {
+    socket?.emit("exclusion", channelId, memberId);
   }, []);
 
   const sendMessage = useCallback((message: TMessageObject) => {
@@ -36,6 +47,7 @@ export const useChannel = (channelId: string) => {
     () => ({
       joinRoom,
       leaveRoom,
+      memberExclusion,
       sendMessage,
       updateMessage,
       removeMessage,

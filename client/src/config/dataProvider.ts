@@ -1,4 +1,16 @@
-import { CreateParams, CreateResult, DeleteParams, DeleteResult, GetListParams, GetListResult, GetOneParams, GetOneResult, IRecord, UpdateParams, UpdateResult } from "./interfaces";
+import {
+  CreateParams,
+  CreateResult,
+  DeleteParams,
+  DeleteResult,
+  GetListParams,
+  GetListResult,
+  GetOneParams,
+  GetOneResult,
+  IRecord,
+  UpdateParams,
+  UpdateResult,
+} from "./interfaces";
 import _ from "./request";
 
 type DataProvider = {

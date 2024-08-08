@@ -1,6 +1,12 @@
-export type TUserObject = { uid?: string; username?: string, online?: boolean };
+export type TUserObject = { uid?: string; username?: string; online?: boolean };
 
-export type TMessageObject = { id?: string; from?: string | TUserObject, to?: string | TChannelObject, content?: string; timestamp?: string | Date; };
+export type TMessageObject = {
+  id?: string;
+  from?: string | TUserObject;
+  to?: string | TChannelObject;
+  content?: string;
+  timestamp?: string | Date;
+};
 
 export type TChannelObject = {
   id?: string;

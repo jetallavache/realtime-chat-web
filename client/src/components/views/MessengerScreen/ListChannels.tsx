@@ -26,6 +26,8 @@ import { useNavigate } from "react-router-dom";
 // import { TChannelObject } from "@/config/interfaces";
 import { useMessengerContext } from "@/contexts/Messenger/Context";
 import { useMessenger } from "@/hooks/useMessenger";
+import { TUser } from "./interfaces";
+import { TUserObject } from "@/config/interfaces";
 
 export const resource = "channels";
 
@@ -46,7 +48,7 @@ export function ListChannels() {
   //   try {
   //     getList(resource, { id: "" })
   //       .then((result): TChannelObject[] => {
-          
+
   //         return result.items.map((item) => ({
   //           id: item.id,
   //           creator: item?.creator?.username,
@@ -76,7 +78,7 @@ export function ListChannels() {
   // }
 
   useEffect(() => {
-    messengerActions.getChannels();
+    messengerActions.updateChannelList();
   }, []);
 
   function selectItem(id: string) {
@@ -120,9 +122,7 @@ export function ListChannels() {
                 <TableCell className="font-medium">{item.title}</TableCell>
                 <TableCell className="text-clip">{item.description}</TableCell>
                 <TableCell>
-                  {item.creator && typeof item.creator === "string"
-                    ? item.creator
-                    : ""}{" "}
+                  {item.creator as TUserObject ? (item.creator as TUserObject).username : (item.creator as string)}
                 </TableCell>
                 {/* <TableCell>{item.countMembers}</TableCell> */}
               </TableRow>
@@ -130,24 +130,24 @@ export function ListChannels() {
             .reverse()}
 
           {
-          // oldChannels.map((item, index) => (
-          //   <TableRow
-          //     key={index}
-          //     onClick={(e) => {
-          //       e.preventDefault;
-          //       item.id && selectItem(item.id);
-          //     }}
-          //   >
-          //     <TableCell className="font-medium">{item.title}</TableCell>
-          //     <TableCell className="text-clip">{item.description}</TableCell>
-          //     <TableCell>
-          //       {item.creator && typeof item.creator === "string"
-          //         ? item.creator
-          //         : ""}{" "}
-          //     </TableCell>
-          //     {/* <TableCell>{item.countMembers}</TableCell> */}
-          //   </TableRow>
-          // ))
+            // oldChannels.map((item, index) => (
+            //   <TableRow
+            //     key={index}
+            //     onClick={(e) => {
+            //       e.preventDefault;
+            //       item.id && selectItem(item.id);
+            //     }}
+            //   >
+            //     <TableCell className="font-medium">{item.title}</TableCell>
+            //     <TableCell className="text-clip">{item.description}</TableCell>
+            //     <TableCell>
+            //       {item.creator && typeof item.creator === "string"
+            //         ? item.creator
+            //         : ""}{" "}
+            //     </TableCell>
+            //     {/* <TableCell>{item.countMembers}</TableCell> */}
+            //   </TableRow>
+            // ))
           }
         </TableBody>
       </Table>
@@ -157,13 +157,13 @@ export function ListChannels() {
   return (
     <Card className="min-w-[200px]">
       <CardHeader>
-        <CardTitle>Channels</CardTitle>
+        <CardTitle className="text-xl font-bold">Channels</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
           tableChannelsSceleton()
         ) : channels.length !== 0 ? (
-          <ScrollArea className="h-80">{tableChannels()}</ScrollArea>
+          <ScrollArea className="h-[440px]">{tableChannels()}</ScrollArea>
         ) : (
           <p>No Data</p>
         )}

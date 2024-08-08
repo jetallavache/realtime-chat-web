@@ -1,9 +1,9 @@
-import serviceMessenger from './messenger.sevice'
+import serviceMessenger from './messenger.sevice';
 import onError from '../../server/socket/error.socket';
 import { ConnectionType, TChannel, TUser } from '../../server/socket/interfaces';
 
-export default ({ io, socket, clients } : ConnectionType): void => {
-    console.log("Messenger");
+export default ({ io, socket, clients }: ConnectionType): void => {
+    console.log('Messenger');
 
     const updateChannelList = async () => {
         const channels = await serviceMessenger.getAllChannels();
@@ -19,7 +19,7 @@ export default ({ io, socket, clients } : ConnectionType): void => {
 
     const sendMessage = (eventName: string, payload?: Object) => {
         // console.info('Emitting event \'' + eventName + '\', - to ', clients, ', - payload ', payload);
-        clients?.forEach((id) => (payload ? io.to(id).emit(eventName, payload) : io.to(id).emit(eventName)));
+        clients?.forEach(id => (payload ? io.to(id).emit(eventName, payload) : io.to(id).emit(eventName)));
     };
 
     socket.on('get_channels', async () => {
@@ -30,7 +30,7 @@ export default ({ io, socket, clients } : ConnectionType): void => {
         }
     });
 
-    socket.on('create_channel', async (channel : TChannel) => {
+    socket.on('create_channel', async (channel: TChannel) => {
         try {
             await serviceMessenger.createChannel(channel);
             updateChannelList();
@@ -39,7 +39,7 @@ export default ({ io, socket, clients } : ConnectionType): void => {
         }
     });
 
-    socket.on('remove_channel', async (channelId : string) => {
+    socket.on('remove_channel', async (channelId: string) => {
         try {
             await serviceMessenger.removeChannel(channelId);
             updateChannelList();

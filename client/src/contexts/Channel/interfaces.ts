@@ -1,5 +1,9 @@
 import React, { PropsWithChildren } from "react";
-import { TChannelObject, TMessageObject, TUserObject } from "@/config/interfaces";
+import {
+  TChannelObject,
+  TMessageObject,
+  TUserObject,
+} from "@/config/interfaces";
 
 export interface IChannelContextState {
   channel: TChannelObject;

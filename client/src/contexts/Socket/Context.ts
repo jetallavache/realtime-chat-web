@@ -21,7 +21,7 @@ export const SocketReducer = (
   console.log(
     `Socket context. Message received, - Action: ${action.type}, - Payload: `,
     action.payload,
-  )
+  );
 
   switch (action.type) {
     case "update_socket":
@@ -37,7 +37,12 @@ export const SocketReducer = (
       return { ...state, clients: action.payload as string[] };
 
     case "remove_client":
-      return { ...state, clients: state.clients.filter((clietnId) => clietnId !== (action.payload as string)) };
+      return {
+        ...state,
+        clients: state.clients.filter(
+          (clietnId) => clietnId !== (action.payload as string),
+        ),
+      };
 
     default:
       return { ...state };
