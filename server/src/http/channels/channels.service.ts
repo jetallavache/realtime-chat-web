@@ -3,16 +3,10 @@ import userModel from '../../mongo/models/user.model';
 
 import { v4 } from 'uuid';
 
-// async function incId() {
-//     const maxId = await channelModel.findOne({}, '-_id id').sort({ id: -1 });
-
-//     return !maxId ? 0 : maxId.id + 1;
-// }
-
 export default {
     async index() {
         const channels = await channelModel
-            .find({}, '-_id id title description members messages countMembers')
+            .find({}, '-_id id title description members messages')
             .populate('creator', '-_id uid username')
             .sort({ createdAt: -1 });
 
@@ -36,7 +30,7 @@ export default {
 
     async show(params: { id: string }) {
         return await channelModel
-            .findOne({ id: params.id }, '-_id id title description countMembers')
+            .findOne({ id: params.id }, '-_id id title description')
             .populate('creator', '-_id uid username online')
             .populate('members', '-_id uid username online')
             .populate({
@@ -50,9 +44,9 @@ export default {
                     },
                     {
                         path: 'to',
-                        select: '-_id id title description countMembersid',
+                        select: '-_id id title description',
                     },
                 ],
-            })
+            });
     },
 };

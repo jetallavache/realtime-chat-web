@@ -1,46 +1,50 @@
 version: '3.3'
 
 services:
-  # crm-dev:
-  #   env_file: .env.dev
-  #   container_name: crm-blglib-dev
-  #   build:
-  #     context: ./crm
-  #     dockerfile: Dockerfile.crm.dev
-  #   image: crm-img-dev
-  #   volumes:
-  #     - ./crm/src:/app-crm/src
-  #     - ./crm/public:/app-crm/public
-  #     - ./crm/pages:/app-crm/pages
-  #     - ./crm/assets:/app-crm/assets
-  #     - ./crm/package.json:/app-crm/package.json:rw
-  #     - ./crm/package-lock.json:/app-crm/package-lock.json:rw
-  #     - ./crm/vite.config.ts:/app-crm/vite.config.ts:rw
-  #     - ./crm/index.html:/app-crm/index.html:rw
-  #   command: npm run dev
-  #   ports:
-  #     - 5000:5000
-  #   depends_on:
-  #     - api-dev
-  #   restart: "no"
+  client-dev:
+    env_file: .env.dev.example
+    container_name: client-dev
+    build:
+      context: ./client
+      dockerfile: Dockerfile.client.dev
+    image: client-img-dev
+    volumes:
+      - ./client/src:/app-client/src
+      - ./client/public:/app-client/public
+      - ./client/package.json:/app-client/package.json:rw
+      - ./client/package-lock.json:/app-client/package-lock.json:rw
+      - ./client/vite.config.ts:/app-client/vite.config.ts:rw
+      - ./client/index.html:/app-client/index.html:rw
+      - ./client/tsconfig.app.json:/app-client/tsconfig.app.json:rw
+      - ./client/tsconfig.node.json:/app-client/tsconfig.node.json:rw
+      - ./client/tsconfig.json:/app-client/tsconfig.json:rw
+      - ./client/tailwind.config.js:/app-client/tailwind.config.js:rw
+      - ./client/postcss.config.js:/app-client/postcss.config.js:rw
+      - ./client/components.json:/app-client/components.json:rw
+    command: npm run dev
+    ports:
+      - 5173:5173
+    depends_on:
+      - server-dev
+    restart: "no"
 
-  # api-dev:
-  #   env_file: .env.dev
-  #   container_name: api-blglib-dev
-  #   build:
-  #     context: ./api
-  #     dockerfile: Dockerfile.api.dev
-  #   image: api-img-dev
-  #   volumes:
-  #     - ./api/src:/app-api/src
-  #     - ./api/package.json:/app-api/package.json:rw
-  #     - ./api/package-lock.json:/app-api/package-lock.json:rw
-  #   command: npm run dev
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - mongodb-dev
-  #   restart: on-failure
+  server-dev:
+    env_file: .env.dev.example
+    container_name: server-dev
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server.dev
+    image: server-img-dev
+    volumes:
+      - ./server/src:/app-server/src
+      - ./server/package.json:/app-server/package.json:rw
+      - ./server/package-lock.json:/app-server/package-lock.json:rw
+    command: npm run dev
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongodb-dev
+    restart: on-failure
   
   mongodb-dev:
     env_file: .env.dev.example

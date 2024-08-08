@@ -21,9 +21,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 import { useNavigate } from "react-router-dom";
 import { useMessenger } from "@/hooks/useMessenger";
-import { useMessengerContext } from "@/contexts/Messenger/Context";
 import authProvider from "@/config/authProvider";
-import config from '@/config/constants'
+import config from "@/config/constants";
 
 export const resource = "channels";
 
@@ -49,7 +48,6 @@ const FormSchema = z.object({
 export function CreateChannel() {
   const navigate = useNavigate();
   const { createChannel } = useMessenger().messengerActions;
-  const { MessengerDispatch } = useMessengerContext();
   const { checkUser } = authProvider(config.apiUrl);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -63,7 +61,7 @@ export function CreateChannel() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const uid = checkUser()?.data.uid;
-    
+
     if (uid) {
       const generatedIdChannel = v4();
       data.creatorUid = uid;
@@ -83,7 +81,7 @@ export function CreateChannel() {
 
   async function onSubmitAndFollow(data: z.infer<typeof FormSchema>) {
     const uid = checkUser()?.data.uid;
-    
+
     if (uid) {
       const generatedIdChannel = v4();
       data.creatorUid = uid;

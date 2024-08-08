@@ -50,7 +50,10 @@ export const ChannelReducer = (
     case "add_member":
       return {
         ...state,
-        members: state.members?.concat(action.payload as TUserObject),
+        // members: state.members?.concat(action.payload as TUserObject),
+        members: [
+          ...new Set(state.members?.concat(action.payload as TUserObject)),
+        ],
       };
 
     /** by user uid */
@@ -68,7 +71,10 @@ export const ChannelReducer = (
     case "add_message":
       return {
         ...state,
-        messages: state.messages?.concat(action.payload as TMessageObject),
+        // messages: state.messages?.concat(action.payload as TMessageObject),
+        messages: [
+          ...new Set(state.messages?.concat(action.payload as TMessageObject)),
+        ],
       };
 
     /** by message id */

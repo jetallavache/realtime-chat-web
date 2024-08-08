@@ -39,6 +39,12 @@ const ChannelContextComponent: React.FunctionComponent<
       console.info("List of channel messages has been received.");
       ChannelDispatch({ type: "update_messages", payload: messages });
     });
+
+    /** Get one message */
+    socket?.on("receive_message", (message: TMessageObject) => {
+      console.info("A new message has been added.");
+      ChannelDispatch({ type: "add_message", payload: message });
+    });
   };
 
   return (

@@ -17,7 +17,7 @@ export default {
                 },
                 {
                     path: 'to',
-                    select: '-_id id title description countMembersid',
+                    select: '-_id id title description ',
                 },
             ],
         });
@@ -35,14 +35,13 @@ export default {
     },
 
     async saveMessage(channelId: string, message: TMessage) {
-        const userId = message.from ? (
-            (<TUser>message.from).uid ? (<TUser>message.from).uid : <string>message.from
-        ) : null;
+        const userId = message.from
+            ? (<TUser>message.from).uid
+                ? (<TUser>message.from).uid
+                : <string>message.from
+            : null;
 
         const user = await userModel.findOne({ uid: userId }, '_id');
-
-        // console.log(me)
-
         const channel = await channelModel.findOne({ id: channelId }, '_id');
 
         const doc = new messageModel({
@@ -54,7 +53,6 @@ export default {
         });
 
         const newMessage = await doc.save();
-
         await channelModel.updateOne(
             {
                 id: channelId,
@@ -69,44 +67,35 @@ export default {
         return newMessage;
     },
 
-    async addUserToChannel(channelId:string, userId: string) {
-   
+    async addUserToChannel(channelId: string, userId: string) {
         const user = await userModel.findOne({ uid: userId }, '_id');
 
-        user?._id && await channelModel.findOneAndUpdate(
-            {
-                id: channelId,
-            },
-            {
-                $addToSet: {
-                    members: user._id,
-                    $inc: {
-                        countMembers: 1,
-                    }
+        user?._id &&
+            (await channelModel.findOneAndUpdate(
+                {
+                    id: channelId,
                 },
-                
-            },
-        );
-        
+                {
+                    $addToSet: {
+                        members: user._id,
+                    },
+                },
+            ));
     },
 
     async excludeUserFromChannel(channelId: string, userId: string) {
-        
-            const user = await userModel.findOne({ uid: userId }, '_id');
+        const user = await userModel.findOne({ uid: userId }, '_id');
 
-            user?._id && await channelModel.findOneAndUpdate(
+        user?._id &&
+            (await channelModel.findOneAndUpdate(
                 {
                     id: channelId,
                 },
                 {
                     $pull: {
                         members: user._id,
-                        $inc: {
-                            countMembers: -1,
-                        }
                     },
-                    
                 },
-            );
+            ));
     },
 };

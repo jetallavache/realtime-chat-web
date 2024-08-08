@@ -12,20 +12,17 @@ import { useContext } from "react";
 import { cn } from "@/lib/utils";
 
 const PopoverInfo = () => {
-  const { SocketState } =
-      useContext(SocketContext);
+  const { SocketState } = useContext(SocketContext);
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button 
-          variant="secondary" 
-          className={cn(
-              SocketState.socket?.id
-                ? ""
-                : "text-red-500",
-            )}
-          >Connection</Button>
+        <Button
+          variant="secondary"
+          className={cn(SocketState.socket?.id ? "" : "text-red-500")}
+        >
+          Connection
+        </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-[520px]">
         <SocketInfo />

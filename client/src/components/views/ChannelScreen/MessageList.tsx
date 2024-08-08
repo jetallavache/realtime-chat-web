@@ -29,12 +29,11 @@ const MessageList = ({ items, userUid }: MessageListProps) => {
 
   useEffect(() => {
     scrollToBottom();
-
   }, [items]);
-  
+
   return (
     <>
-      {items && (
+      {items && userUid && (
         <ScrollArea className="h-[400px]">
           <div className="flex flex-col p-4 pt-0">
             <>

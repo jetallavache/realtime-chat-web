@@ -13,16 +13,21 @@ import SocketContext from "@/contexts/Socket/Context";
 export interface ISocketInfoProps {}
 
 const SocketInfo: React.FunctionComponent<ISocketInfoProps> = (_props) => {
-  const { socket, clientId, clients } =
-    useContext(SocketContext).SocketState;
+  const { socket, clientId, clients } = useContext(SocketContext).SocketState;
 
   return (
     <Card className="">
       <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
         <div className="space-y-1">
-          {/* <CardTitle>Information</CardTitle> */}
           <CardDescription>
-            Connection status: <strong>{socket?.id ? <span className="text-green-500">connected</span> : <span className="text-red-600">disconnected</span>}</strong>
+            Connection status:{" "}
+            <strong>
+              {socket?.id ? (
+                <span className="text-green-500">connected</span>
+              ) : (
+                <span className="text-red-600">disconnected</span>
+              )}
+            </strong>
           </CardDescription>
           {socket?.id && (
             <CardDescription>
@@ -62,4 +67,3 @@ const SocketInfo: React.FunctionComponent<ISocketInfoProps> = (_props) => {
 };
 
 export default SocketInfo;
-

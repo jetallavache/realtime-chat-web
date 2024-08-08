@@ -16,7 +16,6 @@ interface IChannel {
     creator: MongooseTypes;
     members: Array<MongooseTypes>;
     messages: Array<MongooseTypes>;
-    countMembers: Number;
 }
 
 const channelSchema = new Schema<IChannel>(
@@ -44,10 +43,6 @@ const channelSchema = new Schema<IChannel>(
         },
         messages: {
             type: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Message' }],
-        },
-        countMembers: {
-            type: Number,
-            default: 0,
         },
     },
     {

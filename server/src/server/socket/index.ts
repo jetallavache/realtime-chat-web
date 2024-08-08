@@ -5,8 +5,6 @@ import { v4 } from 'uuid';
 import { corsOptions } from '../utils/cors.options';
 import messengerHandlers from '../../ws/messenger';
 import channelHandlers from '../../ws/channel';
-import appService from './app.service';
-import { TUser, TMessage, TChannel } from './interfaces';
 
 export default class ServerSocket {
     public static instance: ServerSocket;
@@ -35,28 +33,31 @@ export default class ServerSocket {
     StartListeners = (socket: Socket) => {
         socket.on('handshake', async (userId: string, callback: (clientId: string, clients: string[]) => void) => {
             console.info('Handshake received from: ' + socket.id);
-            const reconnected = this._getByValue(this.clients, socket.id) ? true : false;
+            const reconnected = this.getByValue(this.clients, socket.id) ? true : false;
 
             if (reconnected) {
-                console.info('This user has reconnected.');
+                console.info('This client has reconnected.');
 
-                let clientId = this._getByValue(this.clients, socket.id);
+                let clientId = this.getByValue(this.clients, socket.id);
                 let clients = [...this.clients.values()];
 
                 if (clientId && userId && clientId !== userId) {
-                    console.info("Changed the client id to the id of an authorized user.");
+                    console.info('Changed the client id to the id of an authorized user.');
                     this.clients.delete(clientId);
                     this.clients.set(userId, socket.id);
-                    
-                    clientId = this._getByValue(this.clients, socket.id);
+
+                    clientId = this.getByValue(this.clients, socket.id);
                     clients = [...this.clients.values()];
                 }
 
                 if (clientId) {
                     console.info('Sending callback for reconnect ...');
                     callback(clientId, clients);
+                    console.info(this.clients);
                     return;
                 }
+            } else {
+                console.info('This new client.');
             }
 
             const clientId = v4();
@@ -65,31 +66,41 @@ export default class ServerSocket {
             const clients = [...this.clients.values()];
             console.info('Sending callback ...');
             callback(clientId, clients);
-            
 
-            this.sendMessage(
+            this.eventEmmiter(
                 'client_connected',
                 clients.filter(id => id !== socket.id),
                 clients,
             );
 
-            console.log(this.clients);
+            console.info(this.clients);
+        });
+
+        socket.on('disconnecting', (reason: any) => {
+            console.info('Disconnecting... ', socket.id, reason);
+            for (const room of socket.rooms) {
+                if (room !== socket.id) {
+                    socket.to(room).emit('client_has_left', socket.id);
+                }
+            }
         });
 
         socket.on('disconnect', () => {
             console.info('Disconnect received from: ' + socket.id);
-            const clientId = this._getByValue(this.clients, socket.id);
+            const clientId = this.getByValue(this.clients, socket.id);
 
             if (clientId) {
                 this.clients.delete(clientId);
                 const clients = [...this.clients.values()];
-                this.sendMessage('client_disconnected', clients, socket.id);
+                this.eventEmmiter('client_disconnected', clients, socket.id);
             }
         });
 
         messengerHandlers({ io: this.io, socket, clients: this.clients });
 
         channelHandlers({ io: this.io, socket, clients: this.clients });
+
+        console.log(this.clients);
     };
 
     /**
@@ -98,12 +109,17 @@ export default class ServerSocket {
      * @param users List of socket id's
      * @param payload Any info needed by the user for state updates
      */
-    sendMessage = (eventName: string, clients: string[], payload?: Object) => {
+    eventEmmiter = (eventName: string, clients: string[], payload?: Object) => {
         console.info("Emitting event '" + eventName + "', - to ", clients, ', - payload ', payload);
         clients.forEach(id => (payload ? this.io.to(id).emit(eventName, payload) : this.io.to(id).emit(eventName)));
     };
 
-    _getByValue = (map: Map<string, string>, searchValue: string) => {
+    /**
+     * Get the key of Map by value
+     * @param map Collection of connected clients
+     * @param searchValue Socket id value
+     */
+    getByValue = (map: Map<string, string>, searchValue: string) => {
         let findKey;
         for (let [key, value] of map.entries()) {
             if (value === searchValue) {

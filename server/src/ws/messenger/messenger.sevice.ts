@@ -6,14 +6,14 @@ import { v4 } from 'uuid';
 export default {
     async getAllChannels() {
         const channels = await channelModel
-            .find({}, '-_id id title description countMembers')
+            .find({}, '-_id id title description')
             .populate({
                 path: 'creator',
                 select: '-_id uid username online',
             })
             .populate({
                 path: 'messages',
-                select: '-_id id content channel createdAt',
+                select: '-_id id content channel timestamp',
                 populate: [
                     {
                         path: 'from',
@@ -34,9 +34,13 @@ export default {
     },
 
     async createChannel(channel: TChannel) {
-        const userId = channel.creator ? (
-            (channel.creator as TUser).uid ? (<TUser>channel.creator).uid : <string>channel.creator
-        ) : null;
+        const userId = channel.creator
+            ? (channel.creator as TUser).uid
+                ? (<TUser>channel.creator).uid
+                : <string>channel.creator
+            : null;
+
+        console.log(userId);
 
         let user = await userModel.findOne({ uid: userId });
 
@@ -47,7 +51,6 @@ export default {
             creator: user?._id,
             members: channel?.members,
             messages: channel?.messages,
-            countMembers: channel?.countMembers,
         });
 
         const newChannel = await doc.save();
@@ -74,7 +77,7 @@ export default {
     async getUser(userId: string) {
         return await userModel.findOne({ uid: userId }, '-_id uid username online');
     },
-    
+
     async getAllUsers() {
         return await userModel.find({}, '-_id uid username online').sort({ online: -1 });
     },

@@ -1,3 +1,3 @@
-import { SignUpScreen } from "@/components/views/SignUpScreen";
+import { SignUpScreen } from "@/components/views/SignupScreen";
 
 export default SignUpScreen;

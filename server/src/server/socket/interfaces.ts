@@ -58,5 +58,4 @@ export type TChannel = {
     creator?: TUser | string;
     members?: TUser[];
     messages?: TMessage[];
-    countMembers?: number;
 };

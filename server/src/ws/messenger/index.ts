@@ -7,18 +7,16 @@ export default ({ io, socket, clients }: ConnectionType): void => {
 
     const updateChannelList = async () => {
         const channels = await serviceMessenger.getAllChannels();
-        // socket.emit('receive_channels', channels);
-        sendMessage('receive_channels', channels);
+        eventEmitter('receive_channels', channels);
     };
 
     const updateUserList = async () => {
         const users = await serviceMessenger.getAllUsers();
-        // socket.emit('receive_users', users);
-        sendMessage('receive_users', users);
+        eventEmitter('receive_users', users);
     };
 
-    const sendMessage = (eventName: string, payload?: Object) => {
-        // console.info('Emitting event \'' + eventName + '\', - to ', clients, ', - payload ', payload);
+    const eventEmitter = (eventName: string, payload?: Object) => {
+        console.info("Emitting event '" + eventName + "', - to ", clients, ', - payload ', payload);
         clients?.forEach(id => (payload ? io.to(id).emit(eventName, payload) : io.to(id).emit(eventName)));
     };
 
@@ -68,6 +66,15 @@ export default ({ io, socket, clients }: ConnectionType): void => {
     socket.on('get_user', async (userId: string) => {
         try {
             await serviceMessenger.getUser(userId);
+        } catch (error: any) {
+            onError(error);
+        }
+    });
+
+    socket.on('exit', async (clientId: string) => {
+        try {
+            console.info('Delete client from array: -', clientId, clients?.has(clientId));
+            clients?.has(clientId) && clients.delete(clientId);
         } catch (error: any) {
             onError(error);
         }

@@ -38,11 +38,12 @@ const MessageInputArea = ({ userId, channelId }: MessagInputAreaProps) => {
     setText("");
   };
 
-  const handleKeyDown = (e: { key: string; }) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = (e: { preventDefault: () => void; key: string }) => {
+    if (e.key === "Enter") {
       sendMessage();
+      e.preventDefault();
     }
-  }
+  };
 
   return (
     <div className="flex space-x-2 m-2 ">

@@ -15,7 +15,6 @@ export type TChannelObject = {
   creator?: TUserObject | string;
   members?: TUserObject[];
   messages?: TMessageObject[];
-  countMembers?: number;
 };
 
 export declare type Identifier = string;

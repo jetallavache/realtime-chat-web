@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from "react";
 
-import { IMessengerContextAction, IMessengerContextComponentProps, IMessengerContextProps, IMessengerContextState } from "./interfaces";
+import { IMessengerContextComponentProps } from "./interfaces";
 import {
   defaultMessengerContextState,
   MessengerContextProvider,

@@ -8,8 +8,7 @@ export const useChannel = (channelId: string) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    socket?.on("called_exit", (memberId: string) => {
+    socket?.on("called_exit", () => {
       console.info("I was kicked out of the channel(.");
       navigate("/chat");
     });

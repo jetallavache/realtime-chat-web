@@ -26,8 +26,8 @@ export const MessengerReducer = (
     case "update_user":
       return { ...state, user: action.payload as TUserObject };
 
-      case "update_channel":
-        return { ...state, channel: action.payload as TChannelObject };
+    case "update_channel":
+      return { ...state, channel: action.payload as TChannelObject };
 
     case "update_channels":
       return { ...state, channels: action.payload as TChannelObject[] };

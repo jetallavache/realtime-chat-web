@@ -8,67 +8,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link, useNavigate } from "react-router-dom";
-import { GetChannelType } from "@/hooks/useChannel";
-import { useEffect, useState } from "react";
-import dataProvider from "@/config/dataProvider";
-import { useSocketContext } from "@/contexts/Socket/Context";
-import { TChannelObject } from "@/contexts/Socket/interfaces";
-import config from "@/config/constants";
-import { resource } from ".";
+import { useState } from "react";
+
+import { TChannelObject } from "@/config/interfaces";
 
 interface NavProps {
   isCollapsed: boolean;
+  items: TChannelObject[];
 }
 
-export function Nav({ isCollapsed }: NavProps) {
+export function Nav({ isCollapsed, items }: NavProps) {
   const [focusItem, setFocusItem] = useState<TChannelObject>();
 
-  const { getList } = dataProvider(config.apiUrl);
-
   const navigate = useNavigate();
-
-  const { channels: currnetChannels } = useSocketContext().SocketState;
-
-  const [loading, setLoading] = useState(false);
-  const [oldChannels, setOldChannels] = useState<TChannelObject[]>([]);
-
-  async function fetch(resource: string) {
-    setLoading(true);
-
-    try {
-      getList(resource, { id: "" })
-        .then((result): TChannelObject[] => {
-          return result.items.map((item) => ({
-            id: item.id,
-            creator: item?.creator?.name,
-            countMembers: item?.countMembers ? item.countMembers : 0,
-            title: item.title,
-            description: item.description,
-          }));
-        })
-        .then((allChannels) => {
-          const currentUsersSet = new Set(
-            currnetChannels.map((e) => JSON.stringify(e)),
-          );
-          return allChannels.filter(
-            (e) => !currentUsersSet.has(JSON.stringify(e)),
-          );
-        })
-        .then((oldChannels) => {
-          setOldChannels(oldChannels);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    fetch(resource);
-  }, [currnetChannels]);
 
   const selectItem = (item: TChannelObject) => {
     setFocusItem(item);
@@ -100,11 +52,11 @@ export function Nav({ isCollapsed }: NavProps) {
               </TooltipTrigger>
               <TooltipContent side="right" className="flex items-center gap-4">
                 {item.title}
-                {/* {item.countMembers && (
+                {item.members && (
                   <span className="ml-auto text-muted-foreground">
-                    {item.countMembers}
+                    {item.members.length}
                   </span>
-                )} */}
+                )}
               </TooltipContent>
             </Tooltip>
           ) : (
@@ -122,14 +74,14 @@ export function Nav({ isCollapsed }: NavProps) {
             >
               <DashIcon className="mr-2 h-4 w-4" />
               {item.title}
-              {item.countMembers && (
+              {item.members && (
                 <span
                   className={cn(
                     "ml-auto",
                     item === focusItem && "text-background dark:text-white",
                   )}
                 >
-                  {/* {item.countMembers} */}
+                  {item.members?.length}
                 </span>
               )}
             </Link>
@@ -144,12 +96,9 @@ export function Nav({ isCollapsed }: NavProps) {
       data-collapsed={isCollapsed}
       className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
     >
-      {loading && (
-        <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
-          {navList(currnetChannels)}
-          {navList(oldChannels)}
-        </nav>
-      )}
+      <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+        {navList(items)}
+      </nav>
     </div>
   );
 }

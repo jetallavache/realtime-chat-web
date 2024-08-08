@@ -1,3 +1,3 @@
-import { LogInScreen } from "@/components/views/LogInScreen";
+import { LoginScreen } from "@/components/views/LoginScreen";
 
-export default LogInScreen;
+export default LoginScreen;

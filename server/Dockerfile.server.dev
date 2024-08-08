@@ -1,0 +1,14 @@
+ARG NODE_VERSION=20
+
+FROM node:${NODE_VERSION}-alpine
+
+WORKDIR /app-server
+RUN mkdir -p src
+
+COPY package.json package-lock.json ./
+COPY ./src /app-server/src
+
+RUN npm i -g nodemon
+RUN npm install
+
+# RUN npm run dev

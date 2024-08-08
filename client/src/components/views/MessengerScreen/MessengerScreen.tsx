@@ -1,9 +1,9 @@
 import React from "react";
 
 import { CreateChannel } from "./CreateChannel";
-import { ListChannels } from "./ListChannels";
+import { ChannelList } from "./ChannelList";
 import ChannelsContextComponent from "@/contexts/Messenger/Component";
-import { ListUsers } from "./ListUsers";
+import { UserList } from "./UserList";
 
 const EditChannelsScreen: React.FC = () => {
   return (
@@ -13,10 +13,10 @@ const EditChannelsScreen: React.FC = () => {
           <CreateChannel />
         </div>
         <div className="m-2">
-          <ListChannels />
+          <ChannelList />
         </div>
         <div className="m-2">
-          <ListUsers />
+          <UserList />
         </div>
       </div>
     </ChannelsContextComponent>

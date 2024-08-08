@@ -25,6 +25,7 @@ import authProvider from "@/config/authProvider";
 import { useNavigate } from "react-router-dom";
 import { useMessengerContext } from "@/contexts/Messenger/Context";
 import { useMessenger } from "@/hooks/useMessenger";
+import { MouseEventHandler } from "react";
 
 const FormSchema = z.object({
   uid: z.string().trim().uuid(),
@@ -85,7 +86,10 @@ const Login = () => {
         <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
           New to Chat?{" "}
           <a
-            href="/signup"
+            onClick={() => navigate("/signup")}
+            onMouseOver={(event) =>
+              (event.currentTarget.style.cursor = "pointer")
+            }
             className="font-medium underline underline-offset-4"
           >
             Create an account

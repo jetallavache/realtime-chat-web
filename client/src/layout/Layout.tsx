@@ -9,14 +9,12 @@ const Layout: React.FunctionComponent<ILayoutProps> = (props) => {
   const { children } = props;
 
   return (
-    <>
-      <div className="h-full flex-col md:flex">
-        <Header />
-        <section>{children}</section>
-        <Separator />
-        <Footer />
-      </div>
-    </>
+    <div className="h-full flex-col md:flex">
+      <Header />
+      <section>{children}</section>
+      <Separator />
+      <Footer />
+    </div>
   );
 };
 

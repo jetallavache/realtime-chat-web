@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { Routes, Route, useLocation, BrowserRouter } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
-import Layout from "../layout/Layout";
 import { RouteType } from "./interfaces";
 
 export function createRoutesFrom(modules: any) {
@@ -33,8 +32,6 @@ export function createRoutesFrom(modules: any) {
   return () => {
     return (
       <>
-        {/* <BrowserRouter> */}
-        {/* <Layout> */}
         <RouteScrollTop />
         <Routes>
           {routes.map(({ path, Component }) => {
@@ -42,8 +39,6 @@ export function createRoutesFrom(modules: any) {
           })}
           <Route path="/" />
         </Routes>
-        {/* </Layout> */}
-        {/* </BrowserRouter> */}
       </>
     );
   };

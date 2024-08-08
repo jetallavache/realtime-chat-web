@@ -9,12 +9,12 @@ import "./styles/index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    <BrowserRouter>
       <MessengerContextComponent>
-    <SocketContextComponent>
-        <BrowserRouter>
+        <SocketContextComponent>
           <App />
-        </BrowserRouter>
-    </SocketContextComponent>
+        </SocketContextComponent>
       </MessengerContextComponent>
+    </BrowserRouter>
   </React.StrictMode>,
 );
