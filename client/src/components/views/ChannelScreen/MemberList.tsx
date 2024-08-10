@@ -126,7 +126,7 @@ export function MemberList(props: MemberListProps) {
         <h1 className="text-xl font-bold">Members</h1>
       </div>
       <Separator />
-      <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="p-4 backdrop-blur">
         <form>
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />

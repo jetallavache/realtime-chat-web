@@ -13,7 +13,7 @@ import { parseISO } from "date-fns/parseISO";
 import { format } from "date-fns/format";
 import { useRef, useEffect } from "react";
 import { TMessageObject } from "@/config/interfaces";
-import { TUser } from "../MessengerScreen/interfaces";
+import { TUserObject } from "@/config/interfaces";
 
 interface MessageListProps {
   items: TMessageObject[];
@@ -34,14 +34,14 @@ const MessageList = ({ items, userUid }: MessageListProps) => {
   return (
     <>
       {items && userUid && (
-        <ScrollArea className="h-[400px]">
+        <ScrollArea className="h-[460px]">
           <div className="flex flex-col p-4 pt-0">
             <>
               {items.map((item, index) => (
                 <Card
                   className={cn(
-                    "m-1 p-2 w-[300px]",
-                    (item?.from as TUser).uid === userUid
+                    "m-1 p-3 w-[300px] border-0 rounded-3xl",
+                    (item?.from as TUserObject).uid === userUid
                       ? "self-end bg-green-100"
                       : "bg-slate-100",
                   )}
@@ -51,22 +51,22 @@ const MessageList = ({ items, userUid }: MessageListProps) => {
                     <div
                       className={cn(
                         "flex space-x-1",
-                        (item?.from as TUser).uid === userUid
+                        (item?.from as TUserObject).uid === userUid
                           ? "flex-end justify-end"
                           : "flex-start",
                       )}
                     >
-                      <CardDescription>
+                      <CardDescription className="text-xs">
                         {item.timestamp &&
                           format(
                             parseISO(item.timestamp as string),
                             "d LLL, HH:mm",
                           )}
-                      </CardDescription>
-                      {(item?.from as TUser).uid !== userUid && (
-                        <CardDescription className="flex flex-start space-x-1 items-center">
+                      </CardDescription >
+                      {(item?.from as TUserObject).uid !== userUid && (
+                        <CardDescription className="flex flex-start space-x-1 items-center text-xs">
                           <CaretRightIcon />
-                          {(item?.from as TUser).username}
+                          {(item?.from as TUserObject).username}
                         </CardDescription>
                       )}
                     </div>

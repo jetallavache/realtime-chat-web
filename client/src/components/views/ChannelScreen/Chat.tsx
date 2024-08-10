@@ -37,7 +37,7 @@ export function Chat({
   userUid: userId,
   messages: messages,
   members: members,
-  defaultLayout = [20, 50, 30],
+  defaultLayout = [20, 60, 20],
   defaultCollapsed = false,
   navCollapsedSize,
   isOwner,
@@ -47,7 +47,8 @@ export function Chat({
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
 
   return (
-    <TooltipProvider delayDuration={0}>
+    <div className="w-screen">
+      <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
         onLayout={(sizes: number[]) => {
@@ -104,5 +105,6 @@ export function Chat({
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>
+    </div>
   );
 }

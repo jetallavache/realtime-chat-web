@@ -36,7 +36,11 @@ const Channel = () => {
       ChannelDispatch({ type: "update_members", payload: [] });
       ChannelDispatch({ type: "update_messages", payload: [] });
       ChannelDispatch({ type: "update_channel", payload: {} });
-      channelActions.leaveRoom(user?.uid ? user.uid : "");
+      id && channelActions.leaveRoom(user?.uid ? user.uid : "");
+
+      setTimeout(() => {
+        id && channelActions.leaveRoom(user?.uid ? user.uid : "");
+      }, 1000);
     };
   }, []);
 
@@ -66,7 +70,7 @@ const Channel = () => {
   }
 
   return (
-    <div className="">
+    <>
       {id && (
         <Chat
           channelId={id}
@@ -79,7 +83,7 @@ const Channel = () => {
           navCollapsedSize={4}
         />
       )}
-    </div>
+    </>
   );
 };
 

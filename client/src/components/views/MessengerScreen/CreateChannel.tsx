@@ -149,7 +149,7 @@ export function CreateChannel() {
   }
 
   return (
-    <Card className="min-w-[290px] h-full">
+    <Card className="min-w-[280px] h-full">
       <CardHeader>
         <CardTitle className="text-xl font-bold">Create New</CardTitle>
       </CardHeader>
