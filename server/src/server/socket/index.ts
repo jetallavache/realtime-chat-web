@@ -76,14 +76,14 @@ export default class ServerSocket {
             console.info(this.clients);
         });
 
-        socket.on('disconnecting', (reason: any) => {
-            console.info('Disconnecting... ', socket.id, reason);
-            for (const room of socket.rooms) {
-                if (room !== socket.id) {
-                    socket.to(room).emit('client_has_left', socket.id);
-                }
-            }
-        });
+        // socket.on('disconnecting', (reason: any) => {
+        //     console.info('Disconnecting... ', socket.id, reason);
+        //     for (const room of socket.rooms) {
+        //         if (room !== socket.id) {
+        //             socket.to(room).emit('client_has_left', socket.id);
+        //         }
+        //     }
+        // });
 
         socket.on('disconnect', () => {
             console.info('Disconnect received from: ' + socket.id);
@@ -96,11 +96,9 @@ export default class ServerSocket {
             }
         });
 
-        messengerHandlers({ io: this.io, socket, clients: this.clients });
+        messengerHandlers({ io: this.io, socket, clients: this.clients, getClientId: this.getClientId });
 
-        channelHandlers({ io: this.io, socket, clients: this.clients });
-
-        console.log(this.clients);
+        channelHandlers({ io: this.io, socket, clients: this.clients, getClientId: this.getClientId });
     };
 
     /**
@@ -130,5 +128,22 @@ export default class ServerSocket {
         }
 
         return findKey;
+    };
+
+    /**
+     * Get the key of client Map by value (socket id)
+     * @param socketId Socket id value
+     */
+    getClientId = (socketId: string) => {
+        let clientId;
+        for (let [key, value] of this.clients.entries()) {
+            if (value === socketId) {
+                clientId = key;
+            } else {
+                clientId = null;
+            }
+        }
+
+        return clientId;
     };
 }

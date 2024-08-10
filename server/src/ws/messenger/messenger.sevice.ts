@@ -81,4 +81,8 @@ export default {
     async getAllUsers() {
         return await userModel.find({}, '-_id uid username online').sort({ online: -1 });
     },
+
+    async logout(clientId: string) {
+        await userModel.findOneAndUpdate({ uid: clientId }, { online: false });
+    },
 };

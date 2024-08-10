@@ -5,6 +5,7 @@ export type ConnectionType = {
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
     socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
     clients?: Map<string, string>;
+    getClientId: (socketId: string) => string | null | undefined;
 };
 
 export type HandlerType = ConnectionType & {
