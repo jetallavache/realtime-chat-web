@@ -23,7 +23,7 @@ services:
       - ./client/components.json:/app-client/components.json:rw
     command: npm run dev
     ports:
-      - 5173:5173
+      - 80:8080
     depends_on:
       - server-dev
     restart: "no"
@@ -41,7 +41,7 @@ services:
       - ./server/package-lock.json:/app-server/package-lock.json:rw
     command: npm run dev
     ports:
-      - 8080:8080
+      - 3030:3030
     depends_on:
       - mongodb-dev
     restart: on-failure
