@@ -6,7 +6,7 @@ export default {
     build: NODE_ENV,
     server: {
         protocol: 'http',
-        port: parseInt(PORT as string) || 8080,
+        port: parseInt(PORT as string) || 3030,
         host: HOST || 'localhost',
     },
     chat: {
@@ -17,11 +17,14 @@ export default {
     },
     cors: {
         allowedOrigin: [
+            'http://localhost',
+            'http://localhost:80',
+            'http://localhost:8080',
+            'http://localhost:5000',
             'http://localhost:5173',
             'http://localhost:5174',
             'http://localhost:5175',
             'http://localhost:5176',
-            'http://localhost:5000',
         ],
     },
 };

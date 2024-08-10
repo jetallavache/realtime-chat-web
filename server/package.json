@@ -2,6 +2,7 @@
     "name": "server",
     "version": "0.0.1",
     "description": "Example of Realtime Chat with Express and Socket.io",
+    "private": true,
     "main": "src/index.tsx",
     "scripts": {
         "start": "ts-node src/index.ts",
