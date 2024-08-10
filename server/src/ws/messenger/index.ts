@@ -2,7 +2,7 @@ import serviceMessenger from './messenger.sevice';
 import onError from '../../server/socket/error.socket';
 import { ConnectionType, TChannel, TUser } from '../../server/socket/interfaces';
 
-export default ({ io, socket, clients }: ConnectionType): void => {
+export default ({ io, socket, clients, getClientId }: ConnectionType): void => {
     console.log('Messenger');
 
     const updateChannelList = async () => {
@@ -75,6 +75,17 @@ export default ({ io, socket, clients }: ConnectionType): void => {
         try {
             console.info('Delete client from array: -', clientId, clients?.has(clientId));
             clients?.has(clientId) && clients.delete(clientId);
+        } catch (error: any) {
+            onError(error);
+        }
+    });
+
+    socket.on('disconnecting', async (reason: any) => {
+        try {
+            console.info('Disconnecting and logout user... ', socket.id);
+            const clientId = getClientId(socket.id);
+            clientId && await serviceMessenger.logout(clientId);
+
         } catch (error: any) {
             onError(error);
         }
