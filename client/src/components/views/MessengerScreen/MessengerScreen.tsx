@@ -8,14 +8,14 @@ import { UserList } from "./UserList";
 const EditChannelsScreen: React.FC = () => {
   return (
     <ChannelsContextComponent>
-      <div className="container flex-row sm:flex sm:w-screen bg-zinc-50">
-        <div className="m-2">
+      <div className="container flex-row gap-4 sm:flex sm:w-screen">
+        <div className="my-2">
           <CreateChannel />
         </div>
-        <div className="m-2">
+        <div className="my-2">
           <ChannelList />
         </div>
-        <div className="m-2">
+        <div className="my-2">
           <UserList />
         </div>
       </div>

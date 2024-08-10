@@ -11,7 +11,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = (props) => {
   return (
     <div className="h-full flex-col md:flex">
       <Header />
-      <section>{children}</section>
+      <section className="min-h-[560px] flex justify-center bg-zinc-50">{children}</section>
       <Separator />
       <Footer />
     </div>

@@ -46,9 +46,9 @@ const MessageInputArea = ({ userId, channelId }: MessagInputAreaProps) => {
   };
 
   return (
-    <div className="flex space-x-2 m-2 ">
+    <div className="flex space-x-2 mx-5 my-2">
       <Textarea
-        placeholder="No game, just chat..."
+        placeholder="Text..."
         value={text}
         onChange={changeText}
         onKeyDown={handleKeyDown}

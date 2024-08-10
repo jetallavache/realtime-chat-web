@@ -141,7 +141,7 @@ const Header = () => {
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex flex-col items-start justify-between space-x-4 px-6 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+        <div className="container flex flex-col items-start justify-between space-x-4 px-6 py-6 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
           <div className="flex flex-start items-center">
             <span className="text-sm font-semibold">Chat</span>
             <LightningBoltIcon className="h-4 w-4" />
