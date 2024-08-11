@@ -23,7 +23,7 @@ const Channel = () => {
 
     useEffect(() => {
         if (id) {
-            console.log("AAAAAAAAAAAAAAAAAA", id)
+            console.log("AAAAAAAAAAAAAAAAAA", id);
             channelActions.joinRoom(user?.uid ? user.uid : "");
 
             setTimeout(() => {
@@ -38,7 +38,7 @@ const Channel = () => {
             ChannelDispatch({ type: "update_messages", payload: [] });
             ChannelDispatch({ type: "update_channel", payload: {} });
             if (id && user?.uid) {
-                console.log("BBBBBBBBBBBB", id)
+                console.log("BBBBBBBBBBBB", id);
                 channelActions.leaveRoom(user.uid ? user.uid : "");
 
                 setTimeout(() => {

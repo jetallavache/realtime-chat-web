@@ -4,5 +4,5 @@ export default {
     apiUrl: VITE_API_URL || "http://localhost:8080/",
     wsUrl: VITE_API_WS || "ws://localhost:8080",
     /** Do not change! */
-    version: "1.0.5",
+    version: "1.0.6",
 };

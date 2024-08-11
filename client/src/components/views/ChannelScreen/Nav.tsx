@@ -17,7 +17,7 @@ export function Nav({ isCollapsed, items }: NavProps) {
     let { id } = useParams();
     const navigate = useNavigate();
     const [focusItemId, setFocusItemId] = useState<string | undefined>(id);
-    
+
     useEffect(() => {
         setFocusItemId(id);
     }, []);
