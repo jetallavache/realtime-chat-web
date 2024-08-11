@@ -1,36 +1,36 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { v4 } from 'uuid';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { v4 } from "uuid";
+import { z } from "zod";
 
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-import { useNavigate } from 'react-router-dom';
-import { useMessenger } from '@/hooks/useMessenger';
-import authProvider from '@/config/authProvider';
-import config from '@/config/constants';
+import { useNavigate } from "react-router-dom";
+import { useMessenger } from "@/hooks/useMessenger";
+import authProvider from "@/config/authProvider";
+import config from "@/config/constants";
 
-export const resource = 'channels';
+export const resource = "channels";
 
 const FormSchema = z.object({
     title: z
         .string()
         .min(2, {
-            message: 'The channel name must be at least 2 characters.',
+            message: "The channel name must be at least 2 characters.",
         })
         .max(50, {
-            message: 'The channel name must contain no more than 50 characters.',
+            message: "The channel name must contain no more than 50 characters.",
         }),
     description: z
         .string()
         .max(200, {
-            message: 'The channel description must contain no more than 200 characters.',
+            message: "The channel description must contain no more than 200 characters.",
         })
         .optional(),
     creatorUid: z.string(),
@@ -44,9 +44,9 @@ export function CreateChannel() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            title: '',
-            description: '',
-            creatorUid: '',
+            title: "",
+            description: "",
+            creatorUid: "",
         },
     });
 
@@ -64,9 +64,9 @@ export function CreateChannel() {
                 creator: data.creatorUid,
             });
 
-            console.log('onSubmit', data);
+            console.log("onSubmit", data);
         } else {
-            console.log('onSubmit: user not found!');
+            console.log("onSubmit: user not found!");
         }
     }
 
@@ -84,10 +84,10 @@ export function CreateChannel() {
                 creator: data.creatorUid,
             });
 
-            console.log('onSubmitAndFollow', data);
+            console.log("onSubmitAndFollow", data);
             navigate(`/chat/${generatedIdChannel}`);
         } else {
-            console.log('onSubmitAndFollow: user not found!');
+            console.log("onSubmitAndFollow: user not found!");
         }
     }
 
@@ -136,7 +136,7 @@ export function CreateChannel() {
     }
 
     return (
-        <Card className="min-w-[280px] h-full">
+        <Card className="w-[345px] h-full">
             <CardHeader>
                 <CardTitle className="text-xl font-bold">Create New</CardTitle>
             </CardHeader>

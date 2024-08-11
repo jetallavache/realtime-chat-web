@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import qs from 'qs';
+import axios, { AxiosRequestConfig } from "axios";
+import qs from "qs";
 
 axios.defaults.paramsSerializer = params => qs.stringify(params);
 

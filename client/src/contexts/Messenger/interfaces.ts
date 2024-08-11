@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from 'react';
-import { TChannelObject, TUserObject } from '@/config/interfaces';
+import React, { PropsWithChildren } from "react";
+import { TChannelObject, TUserObject } from "@/config/interfaces";
 
 export interface IMessengerContextState {
     user: TUserObject | null;
@@ -15,14 +15,14 @@ export type RecordType = {
 };
 
 export type TMessengerContextAction =
-    | 'update_user'
-    | 'update_channel'
-    | 'update_channels'
-    | 'add_channel'
-    | 'remove_channel'
-    | 'update_users'
-    | 'add_user'
-    | 'remove_user';
+    | "update_user"
+    | "update_channel"
+    | "update_channels"
+    | "add_channel"
+    | "remove_channel"
+    | "update_users"
+    | "add_user"
+    | "remove_user";
 
 export type TMessengerContextPayload = string | TUserObject | TUserObject[] | TChannelObject | TChannelObject[] | null;
 

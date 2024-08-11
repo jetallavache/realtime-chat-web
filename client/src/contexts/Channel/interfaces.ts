@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from 'react';
-import { TChannelObject, TMessageObject, TUserObject } from '@/config/interfaces';
+import React, { PropsWithChildren } from "react";
+import { TChannelObject, TMessageObject, TUserObject } from "@/config/interfaces";
 
 export interface IChannelContextState {
     channel: TChannelObject;
@@ -15,14 +15,14 @@ export type RecordType = {
 };
 
 export type TChannelContextAction =
-    | 'update_channel'
-    | 'update_owner'
-    | 'update_members'
-    | 'add_member'
-    | 'remove_member'
-    | 'update_messages'
-    | 'add_message'
-    | 'remove_message';
+    | "update_channel"
+    | "update_owner"
+    | "update_members"
+    | "add_member"
+    | "remove_member"
+    | "update_messages"
+    | "add_message"
+    | "remove_message";
 
 export type TChannelContextPayload =
     | RecordType

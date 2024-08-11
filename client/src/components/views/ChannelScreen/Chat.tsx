@@ -1,15 +1,15 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { cn } from '@/lib/utils';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { Separator } from '@/components/ui/separator';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { cn } from "@/lib/utils";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { Separator } from "@/components/ui/separator";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-import MessageList from './MessageList';
-import { Nav } from './Nav';
-import MessageInputArea from './MessageInputArea';
-import { TChannelObject, TMessageObject, TUserObject } from '@/config/interfaces';
-import { MemberList } from './MemberList';
+import MessageList from "./MessageList";
+import { Nav } from "./Nav";
+import MessageInputArea from "./MessageInputArea";
+import { TChannelObject, TMessageObject, TUserObject } from "@/config/interfaces";
+import { MemberList } from "./MemberList";
 
 interface MailProps {
     channelId: string;
@@ -62,12 +62,12 @@ export function Chat({
                             setIsCollapsed(false);
                             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(false)}`;
                         }}
-                        className={cn(isCollapsed && 'min-w-[50px] transition-all duration-300 ease-in-out')}
+                        className={cn(isCollapsed && "min-w-[50px] transition-all duration-300 ease-in-out")}
                     >
                         <div
                             className={cn(
-                                'flex h-[52px] items-center justify-center',
-                                isCollapsed ? 'h-[52px]' : 'px-2',
+                                "flex h-[52px] items-center justify-center",
+                                isCollapsed ? "h-[52px]" : "px-2",
                             )}
                         ></div>
                         <Separator />

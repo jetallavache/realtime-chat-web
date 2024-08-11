@@ -1,1 +1,1 @@
-export { default as SocketInfo } from './SocketInfo';
+export { default as SocketInfo } from "./SocketInfo";

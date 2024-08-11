@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from 'react';
-import { Separator } from '@/components/ui/separator';
-import Footer from './Footer';
-import Header from './Header';
+import React, { PropsWithChildren } from "react";
+import { Separator } from "@/components/ui/separator";
+import Footer from "./Footer";
+import Header from "./Header";
 
 export interface ILayoutProps extends PropsWithChildren {}
 

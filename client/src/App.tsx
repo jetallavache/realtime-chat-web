@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import authProvider from '@/config/authProvider';
-import config from './config/constants';
-import { useMessengerContext } from './contexts/Messenger/Context';
-import { createRoutesFrom } from './router';
-import Layout from './layout/Layout';
+import authProvider from "@/config/authProvider";
+import config from "./config/constants";
+import { useMessengerContext } from "./contexts/Messenger/Context";
+import { createRoutesFrom } from "./router";
+import Layout from "./layout/Layout";
 
-const Routes = createRoutesFrom(import.meta.glob('./pages/**/*', { eager: true }));
+const Routes = createRoutesFrom(import.meta.glob("./pages/**/*", { eager: true }));
 
 export interface IAppProps {}
 
@@ -21,14 +21,14 @@ const App: React.FunctionComponent<IAppProps> = _props => {
         const user = checkUser();
 
         if (user) {
-            MessengerDispatch({ type: 'update_user', payload: user.data });
+            MessengerDispatch({ type: "update_user", payload: user.data });
             if (/^\/chat\/[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(currentPath))
                 return;
-            else navigate('/chat');
+            else navigate("/chat");
         } else {
-            MessengerDispatch({ type: 'update_user', payload: null });
-            if (currentPath !== '/signup') {
-                navigate('/login');
+            MessengerDispatch({ type: "update_user", payload: null });
+            if (currentPath !== "/signup") {
+                navigate("/login");
             }
         }
     }, []);

@@ -1,5 +1,5 @@
-import ChannelContextComponent from '@/contexts/Channel/Component';
-import Channel from './Channel';
+import ChannelContextComponent from "@/contexts/Channel/Component";
+import Channel from "./Channel";
 
 const ChatScreen = () => {
     return (

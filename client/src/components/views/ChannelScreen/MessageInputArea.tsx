@@ -1,10 +1,10 @@
-import { PaperPlaneIcon } from '@radix-ui/react-icons';
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
 
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { SetStateAction, useState } from 'react';
-import { useChannel } from '@/hooks/useChannel';
-import { TMessageObject } from '@/config/interfaces';
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { SetStateAction, useState } from "react";
+import { useChannel } from "@/hooks/useChannel";
+import { TMessageObject } from "@/config/interfaces";
 
 interface MessagInputAreaProps {
     userId: string | undefined;
@@ -14,7 +14,7 @@ interface MessagInputAreaProps {
 const MessageInputArea = ({ userId, channelId }: MessagInputAreaProps) => {
     const { channelActions } = useChannel(channelId);
 
-    const [text, setText] = useState<string>('');
+    const [text, setText] = useState<string>("");
 
     const changeText = (e: { target: { value: SetStateAction<string> } }) => {
         setText(e.target.value);
@@ -35,11 +35,11 @@ const MessageInputArea = ({ userId, channelId }: MessagInputAreaProps) => {
 
         channelActions.sendMessage(message);
 
-        setText('');
+        setText("");
     };
 
     const handleKeyDown = (e: { preventDefault: () => void; key: string }) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
             sendMessage();
             e.preventDefault();
         }

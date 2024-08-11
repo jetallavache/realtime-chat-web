@@ -1,12 +1,12 @@
-import { DashIcon } from '@radix-ui/react-icons';
+import { DashIcon } from "@radix-ui/react-icons";
 
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-import { TChannelObject } from '@/config/interfaces';
+import { TChannelObject } from "@/config/interfaces";
 
 interface NavProps {
     isCollapsed: boolean;
@@ -34,11 +34,11 @@ export function Nav({ isCollapsed, items }: NavProps) {
                                     to={`/chat/${item.id}`}
                                     className={cn(
                                         item === focusItem
-                                            ? buttonVariants({ variant: 'default', size: 'icon' })
-                                            : buttonVariants({ variant: 'ghost', size: 'icon' }),
-                                        'h-9 w-9',
+                                            ? buttonVariants({ variant: "default", size: "icon" })
+                                            : buttonVariants({ variant: "ghost", size: "icon" }),
+                                        "h-9 w-9",
                                         item === focusItem &&
-                                            'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
+                                            "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white",
                                     )}
                                     onClick={() => selectItem(item)}
                                 >
@@ -59,10 +59,10 @@ export function Nav({ isCollapsed, items }: NavProps) {
                             to={`/chat/${item.id}`}
                             className={cn(
                                 item === focusItem
-                                    ? buttonVariants({ variant: 'default', size: 'sm' })
-                                    : buttonVariants({ variant: 'ghost', size: 'sm' }),
-                                item === focusItem && 'dark:bg-muted dark:text-white ',
-                                'justify-start',
+                                    ? buttonVariants({ variant: "default", size: "sm" })
+                                    : buttonVariants({ variant: "ghost", size: "sm" }),
+                                item === focusItem && "dark:bg-muted dark:text-white ",
+                                "justify-start",
                             )}
                             onClick={() => selectItem(item)}
                         >
@@ -70,7 +70,7 @@ export function Nav({ isCollapsed, items }: NavProps) {
                             {item.title}
                             {item.members && (
                                 <span
-                                    className={cn('ml-auto', item === focusItem && 'text-background dark:text-white')}
+                                    className={cn("ml-auto", item === focusItem && "text-background dark:text-white")}
                                 >
                                     {item.members?.length}
                                 </span>

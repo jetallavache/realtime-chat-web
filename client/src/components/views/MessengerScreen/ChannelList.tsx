@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { Card } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@radix-ui/react-separator';
-import { Search } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@radix-ui/react-separator";
+import { Search } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import { useNavigate } from 'react-router-dom';
-import { useMessengerContext } from '@/contexts/Messenger/Context';
-import { useMessenger } from '@/hooks/useMessenger';
-import { TChannelObject, TUserObject } from '@/config/interfaces';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useNavigate } from "react-router-dom";
+import { useMessengerContext } from "@/contexts/Messenger/Context";
+import { useMessenger } from "@/hooks/useMessenger";
+import { TChannelObject, TUserObject } from "@/config/interfaces";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-export const resource = 'channels';
+export const resource = "channels";
 
 export function ChannelList() {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export function ChannelList() {
     const { channels } = useMessengerContext().MessengerState;
 
     const [targetList, setTargetList] = useState<TChannelObject[]>([]);
-    const [promt, setPromt] = useState<string>('');
+    const [promt, setPromt] = useState<string>("");
 
     useEffect(() => {
         channels && setTargetList(channels);
@@ -65,13 +65,13 @@ export function ChannelList() {
                             let title = item.title;
 
                             if (title && title?.length > 12) {
-                                title = title?.slice(0, 12).concat('...');
+                                title = title?.slice(0, 12).concat("...");
                             }
 
                             if (item?.title && promt && promt?.length !== 0) {
                                 title = item?.title.replace(
-                                    new RegExp(promt, 'g'),
-                                    '<span class="text-yellow-500">' + promt + '</span>',
+                                    new RegExp(promt, "g"),
+                                    '<span class="text-yellow-500">' + promt + "</span>",
                                 );
                             }
 
@@ -95,11 +95,11 @@ export function ChannelList() {
                                     )}
                                     <TableCell className="text-clip">
                                         {item?.description && item.description.length > 15
-                                            ? item.description.slice(0, 15).concat('...')
+                                            ? item.description.slice(0, 15).concat("...")
                                             : item.description}
                                     </TableCell>
                                     <TableCell>
-                                        {owner && owner.length > 10 ? owner.slice(0, 10).concat('...') : owner}
+                                        {owner && owner.length > 10 ? owner.slice(0, 10).concat("...") : owner}
                                     </TableCell>
                                 </TableRow>
                             );
@@ -116,7 +116,7 @@ export function ChannelList() {
                 {list && list.length !== 0 ? (
                     <ScrollArea className="h-[410px]">{tableChannels(list)}</ScrollArea>
                 ) : (
-                    <div className="space-y-6 px-2 py-4">
+                    <div className="h-[410px] space-y-6 px-2 py-4">
                         <div className="flex flex-row items-center">
                             <div className="ml-4 space-y-1">
                                 <p className="text-sm font-medium leading-none">Channels not found 💔</p>
@@ -129,7 +129,7 @@ export function ChannelList() {
     };
 
     return (
-        <Card className="min-w-[200px]">
+        <Card className="w-[345px]">
             <Tabs defaultValue="channels">
                 <div className="flex items-center px-4 py-2">
                     <h1 className="text-xl font-bold">Channels</h1>

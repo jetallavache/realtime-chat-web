@@ -1,15 +1,15 @@
-import { useChannel } from '@/hooks/useChannel';
-import { useParams } from 'react-router-dom';
+import { useChannel } from "@/hooks/useChannel";
+import { useParams } from "react-router-dom";
 
-import { useEffect, useState } from 'react';
-import { useMessengerContext } from '@/contexts/Messenger/Context';
-import { useChannelContext } from '@/contexts/Channel/Context';
-import config from '@/config/constants';
-import { Chat } from './Chat';
-import dataProvider from '@/config/dataProvider';
-import { TUserObject } from '@/config/interfaces';
+import { useEffect, useState } from "react";
+import { useMessengerContext } from "@/contexts/Messenger/Context";
+import { useChannelContext } from "@/contexts/Channel/Context";
+import config from "@/config/constants";
+import { Chat } from "./Chat";
+import dataProvider from "@/config/dataProvider";
+import { TUserObject } from "@/config/interfaces";
 
-const resource = 'channels';
+const resource = "channels";
 
 const Channel = () => {
     let { id } = useParams();
@@ -17,15 +17,15 @@ const Channel = () => {
     const { MessengerDispatch } = useMessengerContext();
     const { user, channels } = useMessengerContext().MessengerState;
     const { messages, members } = useChannelContext().ChannelState;
-    const { channelActions } = useChannel(id ? id : '');
+    const { channelActions } = useChannel(id ? id : "");
     const { getOne } = dataProvider(config.apiUrl);
     const [hasOwner, setHasOwner] = useState<boolean>(false);
 
     useEffect(() => {
-        id && channelActions.joinRoom(user?.uid ? user.uid : '');
+        id && channelActions.joinRoom(user?.uid ? user.uid : "");
 
         setTimeout(() => {
-            id && channelActions.joinRoom(user?.uid ? user.uid : '');
+            id && channelActions.joinRoom(user?.uid ? user.uid : "");
         }, 1000);
 
         id && fetch(resource, id);
@@ -33,13 +33,13 @@ const Channel = () => {
 
     useEffect(() => {
         return () => {
-            ChannelDispatch({ type: 'update_members', payload: [] });
-            ChannelDispatch({ type: 'update_messages', payload: [] });
-            ChannelDispatch({ type: 'update_channel', payload: {} });
-            id && channelActions.leaveRoom(user?.uid ? user.uid : '');
+            ChannelDispatch({ type: "update_members", payload: [] });
+            ChannelDispatch({ type: "update_messages", payload: [] });
+            ChannelDispatch({ type: "update_channel", payload: {} });
+            id && channelActions.leaveRoom(user?.uid ? user.uid : "");
 
             setTimeout(() => {
-                id && channelActions.leaveRoom(user?.uid ? user.uid : '');
+                id && channelActions.leaveRoom(user?.uid ? user.uid : "");
             }, 1000);
         };
     }, []);
@@ -48,7 +48,7 @@ const Channel = () => {
         try {
             getOne(resource, { id: channelId })
                 .then(result => {
-                    MessengerDispatch({ type: 'update_channel', payload: result.data });
+                    MessengerDispatch({ type: "update_channel", payload: result.data });
                     return result.data;
                 })
                 .then(channel => {

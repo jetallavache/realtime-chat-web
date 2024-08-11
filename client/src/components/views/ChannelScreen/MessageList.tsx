@@ -1,14 +1,14 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 
-import { CaretRightIcon } from '@radix-ui/react-icons';
+import { CaretRightIcon } from "@radix-ui/react-icons";
 
-import { cn } from '@/lib/utils';
-import { parseISO } from 'date-fns/parseISO';
-import { format } from 'date-fns/format';
-import { useRef, useEffect } from 'react';
-import { TMessageObject } from '@/config/interfaces';
-import { TUserObject } from '@/config/interfaces';
+import { cn } from "@/lib/utils";
+import { parseISO } from "date-fns/parseISO";
+import { format } from "date-fns/format";
+import { useRef, useEffect } from "react";
+import { TMessageObject } from "@/config/interfaces";
+import { TUserObject } from "@/config/interfaces";
 
 interface MessageListProps {
     items: TMessageObject[];
@@ -19,7 +19,7 @@ const MessageList = ({ items, userUid }: MessageListProps) => {
     const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     useEffect(() => {
@@ -35,25 +35,25 @@ const MessageList = ({ items, userUid }: MessageListProps) => {
                             {items.map((item, index) => (
                                 <Card
                                     className={cn(
-                                        'm-1 p-3 w-[300px] border-0 rounded-3xl',
+                                        "m-1 p-3 w-[300px] border-0 rounded-full",
                                         (item?.from as TUserObject).uid === userUid
-                                            ? 'self-end bg-green-100'
-                                            : 'bg-slate-100',
+                                            ? "self-end bg-green-100"
+                                            : "bg-slate-100",
                                     )}
                                     key={index}
                                 >
                                     <CardHeader className="flex flex-col p-0 m-0">
                                         <div
                                             className={cn(
-                                                'flex space-x-1',
+                                                "flex space-x-1",
                                                 (item?.from as TUserObject).uid === userUid
-                                                    ? 'flex-end justify-end'
-                                                    : 'flex-start',
+                                                    ? "flex-end justify-end"
+                                                    : "flex-start",
                                             )}
                                         >
                                             <CardDescription className="text-xs">
                                                 {item.timestamp &&
-                                                    format(parseISO(item.timestamp as string), 'd LLL, HH:mm')}
+                                                    format(parseISO(item.timestamp as string), "d LLL, HH:mm")}
                                             </CardDescription>
                                             {(item?.from as TUserObject).uid !== userUid && (
                                                 <CardDescription className="flex flex-start space-x-1 items-center text-xs">

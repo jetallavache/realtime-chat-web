@@ -1,19 +1,15 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
-import { cn } from '@/lib/utils';
+import { Cross2Icon } from "@radix-ui/react-icons";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@radix-ui/react-separator";
+import { Search } from "lucide-react";
+import { TUserObject } from "@/config/interfaces";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
-import { Tabs, TabsContent } from '@/components/ui/tabs';
-
-import { ScrollArea } from '@/components/ui/scroll-area';
-
-import { Input } from '@/components/ui/input';
-import { Separator } from '@radix-ui/react-separator';
-import { Search } from 'lucide-react';
-import { TUserObject } from '@/config/interfaces';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
-
-export const resource = 'users';
+export const resource = "users";
 
 interface MemberListProps {
     items: TUserObject[] | undefined;
@@ -25,7 +21,7 @@ export function MemberList(props: MemberListProps) {
     const { items, excludeMember, isOwner } = props;
 
     const [targetList, setTargetList] = useState<TUserObject[]>([]);
-    const [promt, setPromt] = useState<string>('');
+    const [promt, setPromt] = useState<string>("");
 
     useEffect(() => {
         items && setTargetList(items);
@@ -52,8 +48,8 @@ export function MemberList(props: MemberListProps) {
                     let username;
                     if (item?.username && promt && promt?.length !== 0) {
                         username = item?.username.replace(
-                            new RegExp(promt, 'g'),
-                            '<span class="text-red-500">' + promt + '</span>',
+                            new RegExp(promt, "g"),
+                            '<span class="text-red-500">' + promt + "</span>",
                         );
                     } else {
                         username = item.username;
@@ -82,7 +78,7 @@ export function MemberList(props: MemberListProps) {
                                         size="default"
                                         className="self-center"
                                         onClick={() => {
-                                            setPromt('');
+                                            setPromt("");
                                             excludeMember(item);
                                         }}
                                     >

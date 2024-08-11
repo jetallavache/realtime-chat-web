@@ -1,6 +1,6 @@
-import { TUserObject } from './interfaces';
-import _ from './request';
-import { storage } from './storage';
+import { TUserObject } from "./interfaces";
+import _ from "./request";
+import { storage } from "./storage";
 
 interface AuthProvider {
     signup: (params: any) => Promise<any>;
@@ -9,7 +9,7 @@ interface AuthProvider {
     logout: () => void;
 }
 
-const userStorageKey = 'user_data';
+const userStorageKey = "user_data";
 
 const authProvider = (apiUrl: string): AuthProvider => ({
     signup: async (user: TUserObject) => {

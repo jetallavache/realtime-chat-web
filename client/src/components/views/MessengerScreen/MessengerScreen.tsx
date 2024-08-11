@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { CreateChannel } from './CreateChannel';
-import { ChannelList } from './ChannelList';
-import ChannelsContextComponent from '@/contexts/Messenger/Component';
-import { UserList } from './UserList';
+import { CreateChannel } from "./CreateChannel";
+import { ChannelList } from "./ChannelList";
+import ChannelsContextComponent from "@/contexts/Messenger/Component";
+import { UserList } from "./UserList";
 
 const EditChannelsScreen: React.FC = () => {
     return (

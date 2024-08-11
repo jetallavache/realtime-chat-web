@@ -1,26 +1,26 @@
-import { cn } from '@/lib/utils';
-import { PersonIcon } from '@radix-ui/react-icons';
-import { Card } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@radix-ui/react-separator';
-import { Search } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import { PersonIcon } from "@radix-ui/react-icons";
+import { Card } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@radix-ui/react-separator";
+import { Search } from "lucide-react";
 
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useMessengerContext } from '@/contexts/Messenger/Context';
-import { useEffect, useState } from 'react';
-import { useMessenger } from '@/hooks/useMessenger';
-import { TUserObject } from '@/config/interfaces';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useMessengerContext } from "@/contexts/Messenger/Context";
+import { useEffect, useState } from "react";
+import { useMessenger } from "@/hooks/useMessenger";
+import { TUserObject } from "@/config/interfaces";
 
-export const resource = 'users';
+export const resource = "users";
 
 export function UserList() {
     const { users: allUsers } = useMessengerContext().MessengerState;
     const { messengerActions } = useMessenger();
 
     const [targetList, setTargetList] = useState<TUserObject[]>([]);
-    const [promt, setPromt] = useState<string>('');
+    const [promt, setPromt] = useState<string>("");
 
     useEffect(() => {
         allUsers && setTargetList(allUsers);
@@ -52,8 +52,8 @@ export function UserList() {
                         let username;
                         if (item?.username && promt && promt?.length !== 0) {
                             username = item?.username.replace(
-                                new RegExp(promt, 'g'),
-                                '<span class="text-blue-500">' + promt + '</span>',
+                                new RegExp(promt, "g"),
+                                '<span class="text-blue-500">' + promt + "</span>",
                             );
                         } else {
                             username = item.username;
@@ -65,16 +65,16 @@ export function UserList() {
                                     {username && (
                                         <TableCell
                                             className={cn(
-                                                'text-clip flex flex-justify items-center',
-                                                item.online === true ? 'bg-emerald-50' : 'bg-stone-50',
+                                                "text-clip flex flex-justify items-center",
+                                                item.online === true ? "bg-emerald-50" : "bg-stone-50",
                                             )}
                                         >
                                             <PersonIcon
                                                 className={cn(
-                                                    'mr-1 h-3 w-3',
+                                                    "mr-1 h-3 w-3",
                                                     item.online === true
-                                                        ? 'fill-sky-400 text-sky-400'
-                                                        : 'fill-red-400 text-red-400',
+                                                        ? "fill-sky-400 text-sky-400"
+                                                        : "fill-red-400 text-red-400",
                                                 )}
                                             />
                                             <div dangerouslySetInnerHTML={{ __html: username }}></div>
@@ -95,7 +95,7 @@ export function UserList() {
                 {list && list.length !== 0 ? (
                     <ScrollArea className="h-[410px]">{showUsers(filter)}</ScrollArea>
                 ) : (
-                    <div className="space-y-6 px-2 py-4">
+                    <div className="h-[410px] space-y-6 px-2 py-4">
                         <div className="flex flex-row items-center">
                             <div className="ml-4 space-y-1">
                                 <p className="text-sm font-medium leading-none">Users not found 💔</p>
@@ -108,7 +108,7 @@ export function UserList() {
     };
 
     return (
-        <Card className="min-w-[200px]">
+        <Card className="w-[345px]">
             <Tabs defaultValue="online">
                 <div className="flex items-center px-4 py-2">
                     <h1 className="text-xl font-bold">Users</h1>

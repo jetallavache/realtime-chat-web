@@ -1,18 +1,18 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
-import config from '@/config/constants';
-import authProvider from '@/config/authProvider';
-import { useNavigate } from 'react-router-dom';
-import { useMessengerContext } from '@/contexts/Messenger/Context';
-import { useMessenger } from '@/hooks/useMessenger';
-import { MouseEventHandler } from 'react';
+import config from "@/config/constants";
+import authProvider from "@/config/authProvider";
+import { useNavigate } from "react-router-dom";
+import { useMessengerContext } from "@/contexts/Messenger/Context";
+import { useMessenger } from "@/hooks/useMessenger";
+import { MouseEventHandler } from "react";
 
 const FormSchema = z.object({
     uid: z.string().trim().uuid(),
@@ -27,15 +27,15 @@ const Login = () => {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            uid: '',
+            uid: "",
         },
     });
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const user = await login(data);
         await messengerActions.updateUserList();
-        MessengerDispatch({ type: 'update_user', payload: user.item });
-        navigate('/chat');
+        MessengerDispatch({ type: "update_user", payload: user.item });
+        navigate("/chat");
     }
 
     function loginForm() {
@@ -63,7 +63,7 @@ const Login = () => {
     }
 
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[390px]">
             <CardHeader>
                 <CardTitle>Sign in to chat</CardTitle>
                 <CardDescription>Enter your secret key to continue.</CardDescription>
@@ -71,10 +71,10 @@ const Login = () => {
             <CardContent>{loginForm()}</CardContent>
             <CardFooter>
                 <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
-                    New to Chat?{' '}
+                    New to Chat?{" "}
                     <a
-                        onClick={() => navigate('/signup')}
-                        onMouseOver={event => (event.currentTarget.style.cursor = 'pointer')}
+                        onClick={() => navigate("/signup")}
+                        onMouseOver={event => (event.currentTarget.style.cursor = "pointer")}
                         className="font-medium underline underline-offset-4"
                     >
                         Create an account

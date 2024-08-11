@@ -10,8 +10,8 @@ import {
     IRecord,
     UpdateParams,
     UpdateResult,
-} from './interfaces';
-import _ from './request';
+} from "./interfaces";
+import _ from "./request";
 
 type DataProvider = {
     getList: <RecordType extends IRecord = IRecord>(

@@ -1,3 +1,3 @@
-import { ChatScreen } from '@/components/views/ChannelScreen';
+import { ChatScreen } from "@/components/views/ChannelScreen";
 
 export default ChatScreen;

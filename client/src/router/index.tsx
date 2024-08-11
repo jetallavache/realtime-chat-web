@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
-import { RouteType } from './interfaces';
+import { RouteType } from "./interfaces";
 
 export function createRoutesFrom(modules: any) {
     const routes = Object.keys(modules)
@@ -11,10 +11,10 @@ export function createRoutesFrom(modules: any) {
             acc.push({
                 name,
                 path: `/${name}`
-                    .replace('index', '/')
-                    .replace('//', '/')
+                    .replace("index", "/")
+                    .replace("//", "/")
                     /** Replaces [param] with :param */
-                    .replace(/\[([^\/]+)\]/gi, ':$1'),
+                    .replace(/\[([^\/]+)\]/gi, ":$1"),
                 Component: modules[path].default,
             });
             return acc;
@@ -53,7 +53,7 @@ function RouteScrollTop() {
             window.scrollTo({
                 top: 0,
                 left: 0,
-                behavior: 'smooth',
+                behavior: "smooth",
             });
         }
     }, [pathname]);

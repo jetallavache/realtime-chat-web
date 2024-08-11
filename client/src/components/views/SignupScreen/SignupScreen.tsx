@@ -1,4 +1,4 @@
-import CreateUser from './CreateUser';
+import CreateUser from "./CreateUser";
 
 const SignUpScreen = () => {
     return (
