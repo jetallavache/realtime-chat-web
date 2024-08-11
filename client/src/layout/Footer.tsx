@@ -1,6 +1,6 @@
 import config from '@/config/constants';
 
-const { __VERESION__: version } = config;
+const { version } = config;
 
 const Footer = () => {
     return (

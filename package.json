@@ -47,13 +47,13 @@
                     "replacements": [
                         {
                             "files": [
-                                "client/version"
+                                "client/src/config/constants.ts"
                             ],
-                            "from": "\".*\"",
-                            "to": "\"${nextRelease.version}\"",
+                            "from": "\\'.*\\'",
+                            "to": "\\'${nextRelease.version}\\'",
                             "results": [
                                 {
-                                    "file": "client/version",
+                                    "file": "client/src/config/constants.ts",
                                     "hasChanged": true,
                                     "numMatches": 1,
                                     "numReplacements": 1
@@ -76,7 +76,7 @@
                 "@semantic-release/git",
                 {
                     "assets": [
-                        "client/version",
+                        "client/src/config/constants.ts",
                         "CHANGELOG.md",
                         "client/**",
                         "server/**",
