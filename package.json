@@ -49,8 +49,8 @@
                             "files": [
                                 "client/src/config/constants.ts"
                             ],
-                            "from": "    __VERSION__: \".*\",",
-                            "to": "    __VERSION__: \"${nextRelease.version}\",",
+                            "from": "__VERSION__: \".*\",",
+                            "to": "__VERSION__: \"${nextRelease.version}\",",
                             "results": [
                                 {
                                     "file": "client/src/config/constants.ts",
