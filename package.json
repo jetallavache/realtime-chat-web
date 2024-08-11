@@ -50,7 +50,7 @@
                                 "client/src/config/constants.ts"
                             ],
                             "from": "version: \\'.*\\'",
-                            "to": "version: \\'${nextRelease.version}\\'",
+                            "to": "version: '${nextRelease.version}'",
                             "results": [
                                 {
                                     "file": "client/src/config/constants.ts",
