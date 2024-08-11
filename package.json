@@ -49,7 +49,7 @@
                             "files": [
                                 "client/version"
                             ],
-                            "from": ".*",
+                            "from": "\".*\"",
                             "to": "${nextRelease.version}",
                             "results": [
                                 {
