@@ -84,8 +84,7 @@ export default ({ io, socket, clients, getClientId }: ConnectionType): void => {
         try {
             console.info('Disconnecting and logout user... ', socket.id);
             const clientId = getClientId(socket.id);
-            clientId && await serviceMessenger.logout(clientId);
-
+            clientId && (await serviceMessenger.logout(clientId));
         } catch (error: any) {
             onError(error);
         }
