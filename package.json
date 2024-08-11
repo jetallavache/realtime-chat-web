@@ -10,13 +10,22 @@
     "dev:compose:rm": "docker compose -f docker-compose.dev.yml rm",
     "dev:compose:rmi": "docker compose -f docker-compose.dev.yml down --rmi all",
     "dev:compose:ps": "docker compose -f docker-compose.dev.yml ps",
-    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css,scss}\""
+    "lint-fix": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css,scss}\""
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "cz-customizable": "^7.2.1",
     "semantic-release": "^24.0.0",
     "semantic-release-replace-plugin": "^1.2.7"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "config/git/commitizen.js"
+    }
   },
   "release": {
     "branches": [
@@ -41,7 +50,7 @@
         {
           "assets": [
             "client/src/config/constants.ts",
-            "CHANGELOG.md", 
+            "CHANGELOG.md",
             "client/**",
             "server/**",
             "mongo/**",
