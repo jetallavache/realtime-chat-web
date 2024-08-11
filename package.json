@@ -4,6 +4,9 @@
     "repository": "git@github.com:jetallavache/real-time-chat.git",
     "private": true,
     "scripts": {
+        "dev:server": "npm run dev --prefix server",
+        "dev:client": "npm run dev --prefix client",
+        "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
         "dev:compose:up": "docker compose -f docker-compose.dev.yml up",
         "dev:compose:rebuild": "docker compose -f docker-compose.dev.yml up --build",
         "dev:compose:stop": "docker compose -f docker-compose.dev.yml stop",
@@ -68,5 +71,8 @@
                 }
             ]
         ]
+    },
+    "dependencies": {
+        "concurrently": "^8.2.2"
     }
 }
