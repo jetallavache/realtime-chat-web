@@ -1,4 +1,4 @@
-export { default as SignUpScreen } from "./SignupScreen";
+export { default as SignUpScreen } from './SignupScreen';
 
-export const path = "/user";
-export const resource = "user";
+export const path = '/user';
+export const resource = 'user';

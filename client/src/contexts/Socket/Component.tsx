@@ -1,115 +1,98 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 
-import { ISocketContextComponentProps } from "./interfaces";
-import {
-  defaultSocketContextState,
-  SocketContextProvider,
-  SocketReducer,
-} from "./Context";
+import { ISocketContextComponentProps } from './interfaces';
+import { defaultSocketContextState, SocketContextProvider, SocketReducer } from './Context';
 
-import { useSocket } from "@/hooks/useSocket";
-import config from "@/config/constants";
-import { useMessengerContext } from "../Messenger/Context";
-import authProvider from "@/config/authProvider";
+import { useSocket } from '@/hooks/useSocket';
+import config from '@/config/constants';
+import { useMessengerContext } from '../Messenger/Context';
+import authProvider from '@/config/authProvider';
 
 const { wsUrl, apiUrl } = config;
 
-const SocketContextComponent: React.FunctionComponent<
-  ISocketContextComponentProps
-> = (props) => {
-  const { children } = props;
-  const { user } = useMessengerContext().MessengerState;
-  const [loading, setLoading] = useState(true);
-  const { checkUser } = authProvider(apiUrl);
+const SocketContextComponent: React.FunctionComponent<ISocketContextComponentProps> = props => {
+    const { children } = props;
+    const { user } = useMessengerContext().MessengerState;
+    const [loading, setLoading] = useState(true);
+    const { checkUser } = authProvider(apiUrl);
 
-  const [SocketState, SocketDispatch] = useReducer(
-    SocketReducer,
-    defaultSocketContextState,
-  );
+    const [SocketState, SocketDispatch] = useReducer(SocketReducer, defaultSocketContextState);
 
-  const socket = useSocket(wsUrl, {
-    reconnectionAttempts: 5,
-    reconnectionDelay: 5000,
-    autoConnect: false,
-  });
-
-  const startListeners = useCallback(() => {
-    /** Messages */
-    socket.on("client_connected", (clients: string[]) => {
-      console.info("User connected message received");
-      SocketDispatch({ type: "update_clients", payload: clients });
+    const socket = useSocket(wsUrl, {
+        reconnectionAttempts: 5,
+        reconnectionDelay: 5000,
+        autoConnect: false,
     });
 
-    /** Messages */
-    socket.on("client_disconnected", (clientId: string) => {
-      console.info("User disconnected message received");
-      SocketDispatch({ type: "remove_client", payload: clientId });
-    });
+    const startListeners = useCallback(() => {
+        /** Messages */
+        socket.on('client_connected', (clients: string[]) => {
+            console.info('User connected message received');
+            SocketDispatch({ type: 'update_clients', payload: clients });
+        });
 
-    /** Reconnect event */
-    socket.io.on("reconnect", (attempt) => {
-      console.info("Reconnected on attempt: ", attempt);
-      sendHandshake();
-    });
+        /** Messages */
+        socket.on('client_disconnected', (clientId: string) => {
+            console.info('User disconnected message received');
+            SocketDispatch({ type: 'remove_client', payload: clientId });
+        });
 
-    /** Reconnect attempt event */
-    socket.io.on("reconnect_attempt", (attempt) => {
-      console.info("Reconnection attempt: ", attempt);
-    });
+        /** Reconnect event */
+        socket.io.on('reconnect', attempt => {
+            console.info('Reconnected on attempt: ', attempt);
+            sendHandshake();
+        });
 
-    /** Reconnect error */
-    socket.io.on("reconnect_error", (error) => {
-      console.info("Reconnect error: ", error);
-    });
+        /** Reconnect attempt event */
+        socket.io.on('reconnect_attempt', attempt => {
+            console.info('Reconnection attempt: ', attempt);
+        });
 
-    /** Reconnect failed */
-    socket.io.on("reconnect_failed", () => {
-      console.info("Reconnection failure.");
-      alert(
-        "We are unable to connect you to the chat service.  Please make sure your internet connection is stable or try again later.",
-      );
-    });
-  }, []);
+        /** Reconnect error */
+        socket.io.on('reconnect_error', error => {
+            console.info('Reconnect error: ', error);
+        });
 
-  const sendHandshake = useCallback(async () => {
-    console.info("Sending handshake to server ...");
+        /** Reconnect failed */
+        socket.io.on('reconnect_failed', () => {
+            console.info('Reconnection failure.');
+            alert(
+                'We are unable to connect you to the chat service.  Please make sure your internet connection is stable or try again later.',
+            );
+        });
+    }, []);
 
-    socket.emit(
-      "handshake",
-      checkUser()?.data.uid,
-      (clientId: string, clients: string[]) => {
-        console.info("User handshake callback message received.");
-        SocketDispatch({ type: "update_clientId", payload: clientId });
-        SocketDispatch({ type: "update_clients", payload: clients });
+    const sendHandshake = useCallback(async () => {
+        console.info('Sending handshake to server ...');
 
-        setLoading(false);
-      },
-    );
-  }, []);
+        socket.emit('handshake', checkUser()?.data.uid, (clientId: string, clients: string[]) => {
+            console.info('User handshake callback message received.');
+            SocketDispatch({ type: 'update_clientId', payload: clientId });
+            SocketDispatch({ type: 'update_clients', payload: clients });
 
-  useEffect(() => {
-    /** Connect to Web Socket */
-    socket.connect();
-    console.info("Connect to ", wsUrl);
+            setLoading(false);
+        });
+    }, []);
 
-    /** Save socket in context */
-    SocketDispatch({ type: "update_socket", payload: socket });
-    SocketDispatch({ type: "update_status", payload: "connected" });
+    useEffect(() => {
+        /** Connect to Web Socket */
+        socket.connect();
+        console.info('Connect to ', wsUrl);
 
-    /** Start event listeners */
-    startListeners();
+        /** Save socket in context */
+        SocketDispatch({ type: 'update_socket', payload: socket });
+        SocketDispatch({ type: 'update_status', payload: 'connected' });
 
-    /** Send handshake */
-    sendHandshake();
-  }, []);
+        /** Start event listeners */
+        startListeners();
 
-  if (loading) return <p>Loading Socket IO ...</p>;
+        /** Send handshake */
+        sendHandshake();
+    }, []);
 
-  return (
-    <SocketContextProvider value={{ SocketState, SocketDispatch }}>
-      {children}
-    </SocketContextProvider>
-  );
+    if (loading) return <p>Loading Socket IO ...</p>;
+
+    return <SocketContextProvider value={{ SocketState, SocketDispatch }}>{children}</SocketContextProvider>;
 };
 
 export default SocketContextComponent;

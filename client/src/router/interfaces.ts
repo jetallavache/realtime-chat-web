@@ -1,5 +1,5 @@
 export type RouteType = {
-  name: string;
-  path: string;
-  Component: any;
+    name: string;
+    path: string;
+    Component: any;
 };

@@ -1,4 +1,4 @@
-export { default as ChatScreen } from "./ChannelScreen";
+export { default as ChatScreen } from './ChannelScreen';
 
-export const path = "/chat";
-export const resource = "chat";
+export const path = '/chat';
+export const resource = 'chat';
