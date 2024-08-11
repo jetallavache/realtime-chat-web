@@ -50,7 +50,7 @@
                                 "client/version"
                             ],
                             "from": "\".*\"",
-                            "to": "${nextRelease.version}",
+                            "to": "\"${nextRelease.version}\"",
                             "results": [
                                 {
                                     "file": "client/version",
