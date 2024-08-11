@@ -20,7 +20,11 @@
   },
   "release": {
     "branches": [
-      "main"
+      "main",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",
@@ -36,11 +40,23 @@
         "@semantic-release/git",
         {
           "assets": [
-            "client/src/config/constants.ts"
-          ]
+            "client/src/config/constants.ts",
+            "CHANGELOG.md", 
+            "client/**",
+            "server/**",
+            "mongo/**",
+            "package.json",
+            "docker-compose.dev.yml"
+          ],
+          "message": "chore(release): set `package.json` to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
       ],
-      "@semantic-release/changelog",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
       [
         "semantic-release-replace-plugin",
         {
