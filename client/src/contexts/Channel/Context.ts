@@ -10,7 +10,6 @@ export const defaultChannelContextState: IChannelContextState = {
         creator: "",
         members: [],
         messages: [],
-        countMembers: 0,
     },
     owner: {
         uid: "",
@@ -21,7 +20,7 @@ export const defaultChannelContextState: IChannelContextState = {
 };
 
 export const ChannelReducer = (state: IChannelContextState, action: IChannelContextAction) => {
-    console.log(`Message received - Action: ${action.type}, - Payload: `, action.payload);
+    // console.log(`Message received - Action: ${action.type}, - Payload: `, action.payload);
 
     switch (action.type) {
         case "update_channel":

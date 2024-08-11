@@ -2,15 +2,30 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useSocketContext } from "../contexts/Socket/Context";
 import { TMessageObject } from "@/config/interfaces";
 import { useNavigate } from "react-router-dom";
+import { useMessengerContext } from "@/contexts/Messenger/Context";
+import { useToast } from "@/components/ui/use-toast";
+import { useMessenger } from "./useMessenger";
 
 export const useChannel = (channelId: string) => {
     const { socket } = useSocketContext().SocketState;
+    const { user } = useMessengerContext().MessengerState;
+    const { messengerActions } = useMessenger();
     const navigate = useNavigate();
+    const { toast } = useToast();
 
     useEffect(() => {
-        socket?.on("called_exit", () => {
-            console.info("I was kicked out of the channel(.");
-            navigate("/chat");
+        socket?.on("called_exit", (memberId: string) => {
+            if (user?.uid === memberId) {
+                console.info("I was kicked out of the channel(.");
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "You were excluded from the chat by its owner.",
+                });
+                navigate("/chat");
+            } else {
+                console.info("I was not touched)))");
+            }
         });
 
         return () => {
@@ -20,10 +35,12 @@ export const useChannel = (channelId: string) => {
 
     const joinRoom = useCallback((userId: string) => {
         socket?.emit("join_room", channelId, userId);
+        messengerActions.updateChannelList();
     }, []);
 
     const leaveRoom = useCallback((userId: string) => {
         socket?.emit("leave_room", channelId, userId);
+        messengerActions.updateChannelList();
     }, []);
 
     const memberExclusion = useCallback((memberId: string) => {

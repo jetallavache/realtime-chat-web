@@ -1,10 +1,10 @@
-import { DashIcon } from "@radix-ui/react-icons";
+import { TokensIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { TChannelObject } from "@/config/interfaces";
 
@@ -14,13 +14,19 @@ interface NavProps {
 }
 
 export function Nav({ isCollapsed, items }: NavProps) {
-    const [focusItem, setFocusItem] = useState<TChannelObject>();
-
+    let { id } = useParams();
     const navigate = useNavigate();
+    const [focusItemId, setFocusItemId] = useState<string | undefined>(id);
+    
+    useEffect(() => {
+        setFocusItemId(id);
+    }, []);
 
     const selectItem = (item: TChannelObject) => {
-        setFocusItem(item);
-        navigate(`/chat/${item.id}`);
+        console.log("To do...");
+        // navigate(`/chat/${item.id}`);
+        // setFocusItemId(item.id);
+        // window.location.reload();
     };
 
     const navList = (list: TChannelObject[]) => {
@@ -31,18 +37,19 @@ export function Nav({ isCollapsed, items }: NavProps) {
                         <Tooltip key={index} delayDuration={0}>
                             <TooltipTrigger asChild>
                                 <Link
-                                    to={`/chat/${item.id}`}
+                                    // to={`/chat/${item.id}`}
+                                    to="#"
                                     className={cn(
-                                        item === focusItem
+                                        item.id === focusItemId
                                             ? buttonVariants({ variant: "default", size: "icon" })
                                             : buttonVariants({ variant: "ghost", size: "icon" }),
                                         "h-9 w-9",
-                                        item === focusItem &&
+                                        item.id === focusItemId &&
                                             "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white",
                                     )}
                                     onClick={() => selectItem(item)}
                                 >
-                                    <DashIcon className="h-4 w-4" />
+                                    <TokensIcon className="h-4 w-4" />
                                     <span className="sr-only">{item.title}</span>
                                 </Link>
                             </TooltipTrigger>
@@ -56,21 +63,27 @@ export function Nav({ isCollapsed, items }: NavProps) {
                     ) : (
                         <Link
                             key={index}
-                            to={`/chat/${item.id}`}
+                            // to={`/chat/${item.id}`}
+                            to="#"
                             className={cn(
-                                item === focusItem
+                                item.id === focusItemId
                                     ? buttonVariants({ variant: "default", size: "sm" })
                                     : buttonVariants({ variant: "ghost", size: "sm" }),
-                                item === focusItem && "dark:bg-muted dark:text-white ",
+                                item.id === focusItemId && "dark:bg-muted dark:text-white ",
                                 "justify-start",
                             )}
                             onClick={() => selectItem(item)}
                         >
-                            <DashIcon className="mr-2 h-4 w-4" />
-                            {item.title}
+                            <TokensIcon className="mr-2 h-4 w-4" />
+                            {item.title && item.title?.length < 10
+                                ? item.title
+                                : item.title?.slice(0, 19).concat("...")}
                             {item.members && (
                                 <span
-                                    className={cn("ml-auto", item === focusItem && "text-background dark:text-white")}
+                                    className={cn(
+                                        "ml-auto",
+                                        item.id === focusItemId && "text-background dark:text-white",
+                                    )}
                                 >
                                     {item.members?.length}
                                 </span>

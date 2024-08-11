@@ -10,7 +10,7 @@ export const defaultMessengerContextState: IMessengerContextState = {
 };
 
 export const MessengerReducer = (state: IMessengerContextState, action: IMessengerContextAction) => {
-    console.log(`Messenger context. Message received, - Action: ${action.type}, - Payload: `, action.payload);
+    // console.log(`Messenger context. Message received, - Action: ${action.type}, - Payload: `, action.payload);
 
     switch (action.type) {
         case "update_user":

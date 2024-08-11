@@ -119,8 +119,8 @@ const CreateUser = () => {
                                     </div>
                                 </FormControl>
                                 <FormDescription>
-                                    Your account will be assigned a generated secret key. 
-                                    Please, save it to log is again.
+                                    Your account will be assigned a generated secret key. Please, save it to log is
+                                    again.
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>

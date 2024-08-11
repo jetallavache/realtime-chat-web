@@ -1,10 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {
-    LightningBoltIcon,
-    PersonIcon,
-    ChevronLeftIcon,
-    LockClosedIcon,
-} from "@radix-ui/react-icons";
+import { LightningBoltIcon, PersonIcon, ChevronLeftIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -71,7 +66,7 @@ const Header = () => {
     };
 
     const buttonsGroupChannel = () => {
-        const owner = (channel?.creator as TUserObject).username;
+        const owner = (channel?.creator as TUserObject)?.username;
         return (
             <>
                 <Button variant="link" className="gap-1 text-stone-600" onClick={() => navigate("/chat")}>
@@ -121,8 +116,6 @@ const Header = () => {
         <>
             <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container flex flex-col items-start justify-between space-x-2 space-y-4 px-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-                    
-                    
                     <div className="container flex">
                         <div className="flex flex-start items-center pr-4 py-2.5">
                             <span className="text-sm font-semibold">Chat</span>
@@ -131,13 +124,14 @@ const Header = () => {
                         {user?.username && (
                             <div className="flex flex-start items-center space-x-1 rounded-full border-0 bg-sky-100 px-4 py-2.5">
                                 <PersonIcon className="h-4 w-4" />
-                                <span className="text-sm font-semibold w-36">{user?.username.length < 16 ? user?.username : user?.username.slice(0, 15).concat("...")}</span>
+                                <span className="text-sm font-semibold w-36">
+                                    {user?.username.length < 16
+                                        ? user?.username
+                                        : user?.username.slice(0, 15).concat("...")}
+                                </span>
                             </div>
                         )}
                     </div>
-
-
-
                     <div className="ml-auto px-4 flex w-full items-center space-x-3 sm:justify-end">
                         {buttonsGroup(currentPath)}
                     </div>

@@ -22,27 +22,31 @@ const Channel = () => {
     const [hasOwner, setHasOwner] = useState<boolean>(false);
 
     useEffect(() => {
-        id && channelActions.joinRoom(user?.uid ? user.uid : "");
+        if (id) {
+            console.log("AAAAAAAAAAAAAAAAAA", id)
+            channelActions.joinRoom(user?.uid ? user.uid : "");
 
-        setTimeout(() => {
-            id && channelActions.joinRoom(user?.uid ? user.uid : "");
-        }, 1000);
+            setTimeout(() => {
+                channelActions.joinRoom(user?.uid ? user.uid : "");
+            }, 1000);
 
-        id && fetch(resource, id);
-    }, []);
+            fetch(resource, id);
+        }
 
-    useEffect(() => {
         return () => {
             ChannelDispatch({ type: "update_members", payload: [] });
             ChannelDispatch({ type: "update_messages", payload: [] });
             ChannelDispatch({ type: "update_channel", payload: {} });
-            id && channelActions.leaveRoom(user?.uid ? user.uid : "");
+            if (id && user?.uid) {
+                console.log("BBBBBBBBBBBB", id)
+                channelActions.leaveRoom(user.uid ? user.uid : "");
 
-            setTimeout(() => {
-                id && channelActions.leaveRoom(user?.uid ? user.uid : "");
-            }, 1000);
+                setTimeout(() => {
+                    channelActions.leaveRoom(user.uid ? user.uid : "");
+                }, 1000);
+            }
         };
-    }, []);
+    }, [id]);
 
     async function fetch(resource: string, channelId: string) {
         try {
@@ -64,7 +68,7 @@ const Channel = () => {
     }
 
     function memberExclusionHandler(member: TUserObject) {
-        member.uid && channelActions.memberExclusion(member.uid);
+        member.uid && channelActions.memberExclusion(member.uid); /** ПЕРЕДАЕМ СОКЕТ ID УЧАСТНИКА */
     }
 
     return (
