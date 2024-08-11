@@ -11,11 +11,11 @@ export default class ServerSocket {
     public io: Server;
 
     /** Master list of all connected clients | [clientId]: socketId */
-    public clients: Map<string, string>;
+    public clients: { [uid: string]: string };
 
     constructor(server: HTTPServer) {
         ServerSocket.instance = this;
-        this.clients = new Map();
+        this.clients = {};
 
         this.io = new Server(server, {
             serveClient: false,
@@ -33,37 +33,28 @@ export default class ServerSocket {
     StartListeners = (socket: Socket) => {
         socket.on('handshake', async (userId: string, callback: (clientId: string, clients: string[]) => void) => {
             console.info('Handshake received from: ' + socket.id);
-            const reconnected = this.getByValue(this.clients, socket.id) ? true : false;
+
+            const reconnected = Object.values(this.clients).includes(socket.id);
 
             if (reconnected) {
                 console.info('This client has reconnected.');
 
-                let clientId = this.getByValue(this.clients, socket.id);
-                let clients = [...this.clients.values()];
-
-                if (clientId && userId && clientId !== userId) {
-                    console.info('Changed the client id to the id of an authorized user.');
-                    this.clients.delete(clientId);
-                    this.clients.set(userId, socket.id);
-
-                    clientId = this.getByValue(this.clients, socket.id);
-                    clients = [...this.clients.values()];
-                }
+                let clientId = this.getClientId(socket.id);
+                let clients = Object.values(this.clients);
+                console.log('Clients(reconnect): ', this.clients);
 
                 if (clientId) {
                     console.info('Sending callback for reconnect ...');
                     callback(clientId, clients);
-                    console.info(this.clients);
                     return;
                 }
-            } else {
-                console.info('This new client.');
             }
 
             const clientId = v4();
-            this.clients.set(clientId, socket.id);
+            this.clients[clientId] = socket.id;
+            console.log('Clients(new): ', this.clients);
 
-            const clients = [...this.clients.values()];
+            const clients = Object.values(this.clients);
             console.info('Sending callback ...');
             callback(clientId, clients);
 
@@ -72,26 +63,24 @@ export default class ServerSocket {
                 clients.filter(id => id !== socket.id),
                 clients,
             );
-
-            console.info(this.clients);
         });
 
-        // socket.on('disconnecting', (reason: any) => {
-        //     console.info('Disconnecting... ', socket.id, reason);
-        //     for (const room of socket.rooms) {
-        //         if (room !== socket.id) {
-        //             socket.to(room).emit('client_has_left', socket.id);
-        //         }
-        //     }
-        // });
+        socket.on('disconnecting', (reason: any) => {
+            console.info('Disconnecting... ', socket.id, reason);
+            for (const room of socket.rooms) {
+                if (room !== socket.id) {
+                    socket.to(room).emit('client_has_left', socket.id);
+                }
+            }
+        });
 
         socket.on('disconnect', () => {
             console.info('Disconnect received from: ' + socket.id);
-            const clientId = this.getByValue(this.clients, socket.id);
+            const clientId = this.getClientId(socket.id);
 
             if (clientId) {
-                this.clients.delete(clientId);
-                const clients = [...this.clients.values()];
+                delete this.clients[clientId];
+                const clients = Object.values(this.clients);
                 this.eventEmmiter('client_disconnected', clients, socket.id);
             }
         });
@@ -113,37 +102,10 @@ export default class ServerSocket {
     };
 
     /**
-     * Get the key of Map by value
-     * @param map Collection of connected clients
-     * @param searchValue Socket id value
-     */
-    getByValue = (map: Map<string, string>, searchValue: string) => {
-        let findKey;
-        for (let [key, value] of map.entries()) {
-            if (value === searchValue) {
-                findKey = key;
-            } else {
-                findKey = null;
-            }
-        }
-
-        return findKey;
-    };
-
-    /**
-     * Get the key of client Map by value (socket id)
+     * Get the client id by value (socket id)
      * @param socketId Socket id value
      */
     getClientId = (socketId: string) => {
-        let clientId;
-        for (let [key, value] of this.clients.entries()) {
-            if (value === socketId) {
-                clientId = key;
-            } else {
-                clientId = null;
-            }
-        }
-
-        return clientId;
+        return Object.keys(this.clients).find(uid => this.clients[uid] === socketId);
     };
 }

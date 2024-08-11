@@ -19,8 +19,7 @@ export default ({ io, socket, clients }: ConnectionType): void => {
     };
 
     const eventEmitter = (eventName: string, roomId: string, payload?: Object) => {
-        console.info("Emitting event '" + eventName + "', - to ", clients, ', - payload ', payload);
-        // clients?.forEach((id) => (payload ? io.in(roomId).to(id).emit(eventName, payload) : io.in(roomId).to(id).emit(eventName)));
+        // console.info("Emitting event '" + eventName + "', - to ", clients, ', - payload ', payload);
         io.in(roomId).emit(eventName, payload);
     };
 
@@ -48,8 +47,7 @@ export default ({ io, socket, clients }: ConnectionType): void => {
     socket.on('exclusion', async (channelId: string, memberId: string) => {
         try {
             await serviceMessenger.excludeUserFromChannel(channelId, memberId);
-            const excSocketId = clients?.get(memberId);
-            excSocketId && io.to(excSocketId).emit('called_exit');
+            eventEmitter('called_exit', channelId, memberId);
             await updateMemberList(channelId);
         } catch (error: any) {
             onError(error);
@@ -67,9 +65,9 @@ export default ({ io, socket, clients }: ConnectionType): void => {
                 timestamp: z.string().datetime({ offset: true }),
             });
 
-            const _message = objectSchema.parse(message);
+            const newMessage = objectSchema.parse(message);
 
-            await serviceMessenger.saveMessage(channelId, _message);
+            await serviceMessenger.saveMessage(channelId, newMessage);
             await updateMessageList(channelId);
         } catch (error: any) {
             onError(error);

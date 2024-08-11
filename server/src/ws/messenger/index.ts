@@ -3,8 +3,6 @@ import onError from '../../server/socket/error.socket';
 import { ConnectionType, TChannel, TUser } from '../../server/socket/interfaces';
 
 export default ({ io, socket, clients, getClientId }: ConnectionType): void => {
-    console.log('Messenger');
-
     const updateChannelList = async () => {
         const channels = await serviceMessenger.getAllChannels();
         eventEmitter('receive_channels', channels);
@@ -16,8 +14,9 @@ export default ({ io, socket, clients, getClientId }: ConnectionType): void => {
     };
 
     const eventEmitter = (eventName: string, payload?: Object) => {
-        console.info("Emitting event '" + eventName + "', - to ", clients, ', - payload ', payload);
-        clients?.forEach(id => (payload ? io.to(id).emit(eventName, payload) : io.to(id).emit(eventName)));
+        // console.info("Emitting event '" + eventName + "', - to ", clients, ', - payload ', payload);
+        const thisClients = clients && Object.values(clients);
+        thisClients?.forEach(id => (payload ? io.to(id).emit(eventName, payload) : io.to(id).emit(eventName)));
     };
 
     socket.on('get_channels', async () => {
@@ -71,10 +70,10 @@ export default ({ io, socket, clients, getClientId }: ConnectionType): void => {
         }
     });
 
-    socket.on('exit', async (clientId: string) => {
+    socket.on('exit', async (userId: string) => {
         try {
-            console.info('Delete client from array: -', clientId, clients?.has(clientId));
-            clients?.has(clientId) && clients.delete(clientId);
+            console.info('Logout client: -', userId);
+            await serviceMessenger.logout(userId);
         } catch (error: any) {
             onError(error);
         }
@@ -83,8 +82,8 @@ export default ({ io, socket, clients, getClientId }: ConnectionType): void => {
     socket.on('disconnecting', async (reason: any) => {
         try {
             console.info('Disconnecting and logout user... ', socket.id);
-            const clientId = getClientId(socket.id);
-            clientId && (await serviceMessenger.logout(clientId));
+            // const clientId = getClientId(socket.id);
+            // clientId && (await serviceMessenger.logout(clientId));
         } catch (error: any) {
             onError(error);
         }
