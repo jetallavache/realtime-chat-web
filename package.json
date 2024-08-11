@@ -10,7 +10,7 @@
     "dev:compose:rm": "docker compose -f docker-compose.dev.yml rm",
     "dev:compose:rmi": "docker compose -f docker-compose.dev.yml down --rmi all",
     "dev:compose:ps": "docker compose -f docker-compose.dev.yml ps",
-    "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css,scss}\""
+    "lint-fix": "prettier --write \"./**/*.{js,jsx,ts,tsx,json,css,scss}\""
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
@@ -20,7 +20,8 @@
   },
   "release": {
     "branches": [
-      "main"
+      "main",
+      "develop"
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",
