@@ -1,4 +1,4 @@
-# Real-Time Chat App
+# realtime-chat web
 
 <p align="center">
     <a href="https://github.com/jetallavache/real-time-chat"><img src="https://img.shields.io/github/release-date/jetallavache/real-time-chat" alt="GitHub Release Date"></a>
